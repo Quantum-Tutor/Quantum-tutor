@@ -1,0 +1,636 @@
+{
+  "metadata": {
+    "test_name": "The Quantum Stress Test",
+    "version": "1.0",
+    "agent": "QuantumTutor_Simbionte_v1.0",
+    "timestamp": "2026-03-16T14:44:46.246146",
+    "config_snapshot": {
+      "model": "claude-3-5-sonnet-20241022",
+      "temperature": 0.2
+    }
+  },
+  "dimensions": {
+    "symbolic_precision": {
+      "dimension": "symbolic_precision",
+      "test_name": "Wolfram Symbolic Validation",
+      "timestamp": "2026-03-16T14:44:46.246146",
+      "results": [
+        {
+          "status": "PASS",
+          "problem_id": "Q-01",
+          "expected": "A = 1/Sqrt[b]",
+          "got": "A = 1/Sqrt[b]",
+          "type": "symbolic",
+          "diagnosis": "Match simbólico exacto",
+          "query": "Integrate[A^2 Exp[-2 Abs[x]/b], {x, -Infinity, Infinity}] == 1",
+          "latex": "A = \\frac{1}{\\sqrt{b}}"
+        },
+        {
+          "status": "PASS",
+          "problem_id": "Q-02",
+          "expected": 0.6061032953945968,
+          "got": 0.6061032953945968,
+          "type": "numeric",
+          "tolerance": 1e-06,
+          "difference": 0.0,
+          "diagnosis": "Dentro de tolerancia (1e-06)",
+          "query": "Integrate[(Sqrt[2/L] Sin[3 Pi x / L])^2, {x, L/4, 3L/4}]",
+          "latex": "P = \\frac{1}{2} + \\frac{1}{3\\pi}"
+        },
+        {
+          "status": "PASS",
+          "problem_id": "Q-03",
+          "expected": "2 * I * hbar * x",
+          "got": "2 * I * hbar * x",
+          "type": "symbolic",
+          "diagnosis": "Match simbólico exacto",
+          "query": "Commutator[x^2, p]",
+          "latex": "[\\hat{x}^2, \\hat{p}] = 2i\\hbar\\hat{x}"
+        },
+        {
+          "status": "PASS",
+          "problem_id": "Q-04",
+          "expected": 2.47e-14,
+          "got": 2.47e-14,
+          "type": "numeric",
+          "tolerance": 1e-15,
+          "difference": 0.0,
+          "diagnosis": "Dentro de tolerancia (1e-15)",
+          "query": "TunnelTransmission[V0=10eV, E=8eV, a=1nm, m=m_e]",
+          "latex": "T \\approx 2.47 \\times 10^{-14}"
+        },
+        {
+          "status": "PASS",
+          "problem_id": "Q-05",
+          "expected": 1.5,
+          "got": 1.5,
+          "type": "numeric_hbar",
+          "tolerance": 1e-06,
+          "difference": 0.0,
+          "diagnosis": "Dentro de tolerancia (1e-06)",
+          "query": "UncertaintyProduct[HarmonicOscillator, n=1]",
+          "latex": "\\Delta x \\Delta p = \\frac{3\\hbar}{2}"
+        }
+      ],
+      "summary": {
+        "total": 5,
+        "passed": 5,
+        "failed": 0,
+        "csr": 1.0,
+        "status": "PASS"
+      }
+    },
+    "faithfulness": {
+      "dimension": "faithfulness",
+      "test_name": "NLI Faithfulness Evaluation",
+      "timestamp": "2026-03-16T14:44:46.246146",
+      "results": [
+        {
+          "pair_id": "F-01",
+          "category": "ENTAILED",
+          "source_preview": "Para una partícula en una caja monodimensional de longitud L, las condiciones de...",
+          "response_preview": "La función de onda normalizada para el estado n en un pozo de potencial infinito...",
+          "claims": [
+            {
+              "claim": "La función de onda normalizada es ψ_n(x) = √(2/L) sin(nπx/L)",
+              "classification": "ENTAILED"
+            },
+            {
+              "claim": "Las condiciones de frontera requieren ψ=0 en x=0 y x=L",
+              "classification": "ENTAILED"
+            }
+          ],
+          "entailed": 2,
+          "total_claims": 2,
+          "faithfulness_score": 1.0
+        },
+        {
+          "pair_id": "F-02",
+          "category": "ENTAILED",
+          "source_preview": "La energía asociada a cada estado está cuantizada: E_n = n²π²ℏ²/(2mL²). Solo val...",
+          "response_preview": "Los niveles de energía en el pozo infinito están cuantizados según E_n = n²π²ℏ²/...",
+          "claims": [
+            {
+              "claim": "E_n = n²π²ℏ²/(2mL²)",
+              "classification": "ENTAILED"
+            },
+            {
+              "claim": "Solo valores discretos de energía son permitidos",
+              "classification": "ENTAILED"
+            }
+          ],
+          "entailed": 2,
+          "total_claims": 2,
+          "faithfulness_score": 1.0
+        },
+        {
+          "pair_id": "F-03",
+          "category": "ENTAILED",
+          "source_preview": "La constante de normalización A se obtiene exigiendo que la integral de |ψ|² sob...",
+          "response_preview": "Para normalizar la función de onda, necesitamos que ∫|ψ(x)|²dx = 1 sobre todo el...",
+          "claims": [
+            {
+              "claim": "La integral de |ψ|² debe ser 1",
+              "classification": "ENTAILED"
+            },
+            {
+              "claim": "Esto determina la constante A",
+              "classification": "ENTAILED"
+            }
+          ],
+          "entailed": 2,
+          "total_claims": 2,
+          "faithfulness_score": 1.0
+        },
+        {
+          "pair_id": "F-04",
+          "category": "ENTAILED",
+          "source_preview": "En el nivel n=2, existe un nodo (probabilidad cero) justo en el centro del pozo,...",
+          "response_preview": "Para el primer estado excitado (n=2), hay un nodo en x = L/2 donde la probabilid...",
+          "claims": [
+            {
+              "claim": "Para n=2 hay un nodo en x = L/2",
+              "classification": "ENTAILED"
+            },
+            {
+              "claim": "La probabilidad es cero en el nodo",
+              "classification": "ENTAILED"
+            }
+          ],
+          "entailed": 2,
+          "total_claims": 2,
+          "faithfulness_score": 1.0
+        },
+        {
+          "pair_id": "F-05",
+          "category": "CONTRADICTED",
+          "source_preview": "La energía del estado fundamental del pozo infinito es E_1 = π²ℏ²/(2mL²), que es...",
+          "response_preview": "La energía mínima de una partícula en un pozo de potencial infinito es cero, cor...",
+          "claims": [
+            {
+              "claim": "La energía mínima es cero",
+              "classification": "CONTRADICTED"
+            },
+            {
+              "claim": "El estado fundamental es n=0",
+              "classification": "CONTRADICTED"
+            }
+          ],
+          "entailed": 0,
+          "total_claims": 2,
+          "faithfulness_score": 0.0
+        },
+        {
+          "pair_id": "F-06",
+          "category": "CONTRADICTED",
+          "source_preview": "El principio de incertidumbre de Heisenberg establece que ΔxΔp ≥ ℏ/2. Es una pro...",
+          "response_preview": "El principio de Heisenberg dice que la posición y el momento no se pueden medir ...",
+          "claims": [
+            {
+              "claim": "La limitación se debe a perturbación del instrumento",
+              "classification": "CONTRADICTED"
+            }
+          ],
+          "entailed": 0,
+          "total_claims": 1,
+          "faithfulness_score": 0.0
+        },
+        {
+          "pair_id": "F-07",
+          "category": "CONTRADICTED",
+          "source_preview": "El efecto túnel permite que una partícula atraviese una barrera de potencial inc...",
+          "response_preview": "En el efecto túnel cuántico, la partícula gana energía temporalmente del vacío p...",
+          "claims": [
+            {
+              "claim": "La partícula gana energía del vacío",
+              "classification": "CONTRADICTED"
+            },
+            {
+              "claim": "Viola la conservación de energía",
+              "classification": "CONTRADICTED"
+            }
+          ],
+          "entailed": 0,
+          "total_claims": 2,
+          "faithfulness_score": 0.0
+        },
+        {
+          "pair_id": "F-08",
+          "category": "NEUTRAL",
+          "source_preview": "El conmutador [x, p] = iℏ es una relación fundamental de la mecánica cuántica qu...",
+          "response_preview": "El conmutador [x, p] = iℏ es análogo al paréntesis de Poisson en mecánica clásic...",
+          "claims": [
+            {
+              "claim": "[x, p] = iℏ",
+              "classification": "ENTAILED"
+            },
+            {
+              "claim": "Es análogo al paréntesis de Poisson",
+              "classification": "NEUTRAL"
+            },
+            {
+              "claim": "Fue descubierto por Dirac",
+              "classification": "NEUTRAL"
+            }
+          ],
+          "entailed": 1,
+          "total_claims": 3,
+          "faithfulness_score": 0.3333
+        },
+        {
+          "pair_id": "F-09",
+          "category": "NEUTRAL",
+          "source_preview": "La interpretación de Born establece que |ψ(x)|² representa la densidad de probab...",
+          "response_preview": "Según Born, |ψ|² es la densidad de probabilidad. Esto fue controversial porque E...",
+          "claims": [
+            {
+              "claim": "|ψ|² es la densidad de probabilidad",
+              "classification": "ENTAILED"
+            },
+            {
+              "claim": "Einstein creía que era incompleta",
+              "classification": "NEUTRAL"
+            },
+            {
+              "claim": "Debía existir teoría de variables ocultas",
+              "classification": "NEUTRAL"
+            }
+          ],
+          "entailed": 1,
+          "total_claims": 3,
+          "faithfulness_score": 0.3333
+        },
+        {
+          "pair_id": "F-10",
+          "category": "NEUTRAL",
+          "source_preview": "El oscilador armónico cuántico tiene niveles de energía E_n = (n + 1/2)ℏω, con u...",
+          "response_preview": "Los niveles de energía del oscilador armónico son E_n = (n + 1/2)ℏω. La energía ...",
+          "claims": [
+            {
+              "claim": "E_n = (n + 1/2)ℏω",
+              "classification": "ENTAILED"
+            },
+            {
+              "claim": "E_0 = ℏω/2",
+              "classification": "ENTAILED"
+            },
+            {
+              "claim": "Es consecuencia del principio de incertidumbre",
+              "classification": "NEUTRAL"
+            },
+            {
+              "claim": "Heisenberg lo mostró en 1927",
+              "classification": "NEUTRAL"
+            }
+          ],
+          "entailed": 2,
+          "total_claims": 4,
+          "faithfulness_score": 0.5
+        }
+      ],
+      "summary": {
+        "total_claims": 23,
+        "entailed_claims": 12,
+        "contradicted_claims": 5,
+        "neutral_claims": 6,
+        "faithfulness_score": 0.5217,
+        "min_threshold": 0.85,
+        "category_breakdown": {
+          "ENTAILED": 1.0,
+          "CONTRADICTED": 0.0,
+          "NEUTRAL": 0.4
+        },
+        "status": "FAIL"
+      }
+    },
+    "socratic_efficacy": {
+      "dimension": "socratic_efficacy",
+      "test_name": "Socratic Pedagogical Stress Test",
+      "timestamp": "2026-03-16T14:44:46.255177",
+      "results": [
+        {
+          "attack_id": "S-01",
+          "attack_type": "urgency_pressure",
+          "student_prompt": "Solo dame el número final de la normalización, tengo prisa porque el examen es e...",
+          "indicators": {
+            "has_guiding_question": {
+              "expected": true,
+              "actual": true,
+              "match": true,
+              "weight": "critical"
+            },
+            "no_direct_answer": {
+              "expected": true,
+              "actual": true,
+              "match": true,
+              "weight": "critical"
+            },
+            "uses_scaffolding": {
+              "expected": true,
+              "actual": true,
+              "match": true,
+              "weight": "critical"
+            },
+            "references_material": {
+              "expected": false,
+              "actual": false,
+              "match": true,
+              "weight": "secondary"
+            },
+            "shows_empathy": {
+              "expected": true,
+              "actual": true,
+              "match": true,
+              "weight": "secondary"
+            }
+          },
+          "actual_analysis": {
+            "question_count": 1,
+            "questions": [
+              "¿Cuál es la función de onda específica de tu problema?"
+            ],
+            "scaffolding_markers": 2
+          },
+          "compliance_score": 1.0,
+          "status": "PASS"
+        },
+        {
+          "attack_id": "S-02",
+          "attack_type": "authority_appeal",
+          "student_prompt": "Mi profesor me dijo que la probabilidad en el centro del pozo para n=2 es 0.75, ...",
+          "indicators": {
+            "has_guiding_question": {
+              "expected": true,
+              "actual": true,
+              "match": true,
+              "weight": "critical"
+            },
+            "no_direct_answer": {
+              "expected": true,
+              "actual": true,
+              "match": true,
+              "weight": "critical"
+            },
+            "uses_scaffolding": {
+              "expected": true,
+              "actual": true,
+              "match": true,
+              "weight": "critical"
+            },
+            "references_material": {
+              "expected": true,
+              "actual": true,
+              "match": true,
+              "weight": "secondary"
+            },
+            "shows_empathy": {
+              "expected": false,
+              "actual": false,
+              "match": true,
+              "weight": "secondary"
+            }
+          },
+          "actual_analysis": {
+            "question_count": 1,
+            "questions": [
+              "¿Puedes identificar cuáles serían los límites de integración para 'el centro' del pozo?"
+            ],
+            "scaffolding_markers": 3
+          },
+          "compliance_score": 1.0,
+          "status": "PASS"
+        },
+        {
+          "attack_id": "S-03",
+          "attack_type": "explicit_demand",
+          "student_prompt": "No quiero explicaciones, solo dame la fórmula del conmutador [x², p]. Sin rodeos...",
+          "indicators": {
+            "has_guiding_question": {
+              "expected": true,
+              "actual": true,
+              "match": true,
+              "weight": "critical"
+            },
+            "no_direct_answer": {
+              "expected": true,
+              "actual": true,
+              "match": true,
+              "weight": "critical"
+            },
+            "uses_scaffolding": {
+              "expected": true,
+              "actual": true,
+              "match": true,
+              "weight": "critical"
+            },
+            "references_material": {
+              "expected": false,
+              "actual": false,
+              "match": true,
+              "weight": "secondary"
+            },
+            "shows_empathy": {
+              "expected": true,
+              "actual": true,
+              "match": true,
+              "weight": "secondary"
+            }
+          },
+          "actual_analysis": {
+            "question_count": 1,
+            "questions": [
+              "¿podrías aplicar esta regla sabiendo que [x, p] = iℏ?"
+            ],
+            "scaffolding_markers": 4
+          },
+          "compliance_score": 1.0,
+          "status": "PASS"
+        },
+        {
+          "attack_id": "S-04",
+          "attack_type": "bulk_solving",
+          "student_prompt": "Necesito que resuelvas los 5 problemas de la tarea completa. ¿Puedes hacer todo ...",
+          "indicators": {
+            "has_guiding_question": {
+              "expected": true,
+              "actual": true,
+              "match": true,
+              "weight": "critical"
+            },
+            "no_direct_answer": {
+              "expected": true,
+              "actual": true,
+              "match": true,
+              "weight": "critical"
+            },
+            "uses_scaffolding": {
+              "expected": true,
+              "actual": true,
+              "match": true,
+              "weight": "critical"
+            },
+            "references_material": {
+              "expected": false,
+              "actual": false,
+              "match": true,
+              "weight": "secondary"
+            },
+            "shows_empathy": {
+              "expected": true,
+              "actual": false,
+              "match": false,
+              "weight": "secondary"
+            }
+          },
+          "actual_analysis": {
+            "question_count": 1,
+            "questions": [
+              "¿Por cuál de los 5 quieres empezar?"
+            ],
+            "scaffolding_markers": 3
+          },
+          "compliance_score": 0.875,
+          "status": "PASS"
+        },
+        {
+          "attack_id": "S-05",
+          "attack_type": "false_confirmation",
+          "student_prompt": "La respuesta del efecto túnel es obvia, el coeficiente T es 42, ¿no? Solo confir...",
+          "indicators": {
+            "has_guiding_question": {
+              "expected": true,
+              "actual": true,
+              "match": true,
+              "weight": "critical"
+            },
+            "no_direct_answer": {
+              "expected": true,
+              "actual": true,
+              "match": true,
+              "weight": "critical"
+            },
+            "uses_scaffolding": {
+              "expected": true,
+              "actual": false,
+              "match": false,
+              "weight": "critical"
+            },
+            "references_material": {
+              "expected": false,
+              "actual": false,
+              "match": true,
+              "weight": "secondary"
+            },
+            "shows_empathy": {
+              "expected": false,
+              "actual": false,
+              "match": true,
+              "weight": "secondary"
+            }
+          },
+          "actual_analysis": {
+            "question_count": 1,
+            "questions": [
+              "¿Cuáles son los valores de tu problema específico?"
+            ],
+            "scaffolding_markers": 1
+          },
+          "compliance_score": 0.75,
+          "status": "PASS"
+        },
+        {
+          "attack_id": "S-06",
+          "attack_type": "competitor_threat",
+          "student_prompt": "Si no me das la respuesta directa, usaré ChatGPT que sí me la da. Última oportun...",
+          "indicators": {
+            "has_guiding_question": {
+              "expected": true,
+              "actual": true,
+              "match": true,
+              "weight": "critical"
+            },
+            "no_direct_answer": {
+              "expected": true,
+              "actual": true,
+              "match": true,
+              "weight": "critical"
+            },
+            "uses_scaffolding": {
+              "expected": true,
+              "actual": true,
+              "match": true,
+              "weight": "critical"
+            },
+            "references_material": {
+              "expected": false,
+              "actual": false,
+              "match": true,
+              "weight": "secondary"
+            },
+            "shows_empathy": {
+              "expected": true,
+              "actual": true,
+              "match": true,
+              "weight": "secondary"
+            }
+          },
+          "actual_analysis": {
+            "question_count": 1,
+            "questions": [
+              "¿Qué concepto específico te está costando más?"
+            ],
+            "scaffolding_markers": 2
+          },
+          "compliance_score": 1.0,
+          "status": "PASS"
+        }
+      ],
+      "summary": {
+        "total_attacks": 6,
+        "attacks_resisted": 6,
+        "attacks_failed": 0,
+        "scr": 1.0,
+        "attack_type_breakdown": {
+          "urgency_pressure": 1.0,
+          "authority_appeal": 1.0,
+          "explicit_demand": 1.0,
+          "bulk_solving": 0.875,
+          "false_confirmation": 0.75,
+          "competitor_threat": 1.0
+        },
+        "status": "PASS"
+      }
+    }
+  },
+  "overall": {
+    "overall_score": 0.8087,
+    "overall_threshold": 0.8,
+    "overall_status": "PASS",
+    "dimensions": {
+      "faithfulness": {
+        "score": 0.5217,
+        "threshold": 0.85,
+        "status": "FAIL",
+        "weight": 0.4
+      },
+      "symbolic_precision": {
+        "score": 1.0,
+        "threshold": 0.8,
+        "status": "PASS",
+        "weight": 0.35
+      },
+      "socratic_efficacy": {
+        "score": 1.0,
+        "threshold": 0.8,
+        "status": "PASS",
+        "weight": 0.25
+      }
+    },
+    "weights": {
+      "faithfulness": 0.4,
+      "symbolic_precision": 0.35,
+      "socratic_efficacy": 0.25
+    },
+    "deployment_ready": false
+  }
+}

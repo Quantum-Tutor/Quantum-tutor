@@ -1,0 +1,9 @@
+# Dataset de Evaluación: "The Quantum Stress Test" ($D_{stress}$)
+
+| ID | Problema de Física Cuántica | Fallo Típico de un LLM (Sin Wolfram) | Solución Correcta (Con Wolfram) |
+| :--- | :--- | :--- | :--- |
+| **Q-01** | Normalización: Dada $\Psi(x) = A e^{-|x|/b}$, halla A para que la función esté normalizada. | Falla al integrar el valor absoluto en el exponente y omite el factor 2 de simetría. | Realiza la integral $\int_{-\infty}^{\infty} |A|^2 e^{-2|x|/b} dx = 1$ y da $A = \frac{1}{\sqrt{b}}$. |
+| **Q-02** | Probabilidad en Pozo Infinito: En un pozo de 0 a L, calcula la probabilidad exacta de encontrar la partícula entre L/4 y 3L/4 para n=3. | Tiende a dar una respuesta genérica o aproximada (0.5) sin realizar la integración de $\sin^2(3\pi x/L)$. | Realiza la integración definida exacta y devuelve el valor numérico preciso: $0.5 + \frac{1}{3\pi}$. |
+| **Q-03** | Relación de Conmutación: Demuestra si $[\hat{x}^2, \hat{p}]$ es cero o no y halla su valor. | Se confunde con la regla de la cadena de operadores y suele decir que es cero o dar un signo incorrecto. | Realiza el álgebra de operadores: $2i\hbar \hat{x}$. Wolfram no "adivina", aplica las reglas de derivación sobre la función de prueba. |
+| **Q-04** | Efecto Túnel: Calcula el coeficiente de transmisión T para una barrera de 10 eV y una partícula de 8 eV con ancho de 1 nm. | Alucina los órdenes de magnitud en los exponentes neperianos ($e^{-2\kappa a}$), fallando por potencias de 10. | Calcula $\kappa = \sqrt{2m(V_0 - E)}/\hbar$ con precisión de punto flotante y entrega el valor real de T. |
+| **Q-05** | Incertidumbre en Oscilador: Halla el producto $\Delta x \Delta p$ para el primer estado excitado (n=1). | Suele responder el mínimo teórico $\hbar/2$ por inercia, sin calcular los valores esperados $\langle x^2 \rangle$ y $\langle p^2 \rangle$. | Calcula las integrales de los polinomios de Hermite y halla que para n=1, el producto es $3\hbar/2$. |

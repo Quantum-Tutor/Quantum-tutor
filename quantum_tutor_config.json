@@ -1,0 +1,81 @@
+{
+  "system_metadata": {
+    "agent_name": "QuantumTutor_Simbionte_v1.0",
+    "architecture": "Neuro-Symbolic RAG Agent",
+    "version": "2026.03.16"
+  },
+  "llm_config": {
+    "model": "claude-3-5-sonnet-20241022",
+    "temperature": 0.2,
+    "max_tokens": 2048,
+    "top_p": 0.9,
+    "presence_penalty": 0.1
+  },
+  "rag_parameters": {
+    "vector_store": "pinecone-serverless",
+    "embedding_model": "text-embedding-3-large",
+    "top_k_fragments": 5,
+    "rerank_enabled": true,
+    "similarity_threshold": 0.75,
+    "chunk_strategy": "semantic_markdown_headers",
+    "equation_aware_chunking": true,
+    "min_chunk_size": 200,
+    "max_chunk_size": 1500
+  },
+  "tool_definitions": [
+    {
+      "tool_name": "wolfram_alpha_engine",
+      "description": "Motor de cálculo simbólico y numérico para física y matemáticas.",
+      "parameters": {
+        "input_syntax": "Wolfram Language (WL)",
+        "output_format": ["plaintext", "latex", "plot_url"],
+        "timeout_ms": 5000
+      },
+      "enforce_usage_on": [
+        "integrales", 
+        "derivadas_operadores", 
+        "normalizacion", 
+        "incertidumbre_heisenberg",
+        "efecto_tunel",
+        "conmutadores"
+      ]
+    }
+  ],
+  "safety_and_governance": {
+    "hallucination_check": "nli_consistency_score",
+    "min_faithfulness_score": 0.85,
+    "pii_redaction": true,
+    "forbidden_content": ["politics", "non_physics_advice"],
+    "unit_validation": "forced_SI_metrics"
+  },
+  "prompt_strategies": {
+    "system_prompt_id": "sp_quantum_socratic_v1",
+    "few_shot_examples": [
+      {
+        "input": "Halla el valor esperado de x para n=1",
+        "thought": "Requiere integral de x*|psi|^2. Llamar a Wolfram.",
+        "tool_call": "Integrate[x * (Sqrt[2/L] Sin[Pi x / L])^2, {x, 0, L}]",
+        "pedagogical_output": "Para hallar <x>, plantearemos la integral de la densidad de probabilidad. ¿Qué resultado esperarías obtener por simetría antes de ver el cálculo?"
+      }
+    ]
+  },
+  "evaluation_protocol": {
+    "name": "The Quantum Stress Test (QST)",
+    "version": "1.0",
+    "weights": {
+      "faithfulness": 0.40,
+      "symbolic_precision": 0.35,
+      "socratic_efficacy": 0.25
+    },
+    "thresholds": {
+      "faithfulness": 0.85,
+      "csr": 0.80,
+      "scr": 0.80,
+      "overall": 0.80
+    },
+    "output": {
+      "report_path": "qst_results.json",
+      "dashboard_path": "evaluation_dashboard.html"
+    }
+  }
+}

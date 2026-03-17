@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>QuantumTutor v1.0</title>
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; line-height: 1.6; max-width: 800px; margin: 40px auto; color: #333; padding: 20px; }
+        h1, h2, h3 { color: #2c3e50; border-bottom: 2px solid #eee; padding-bottom: 5px; }
+        h1 { text-align: center; border-bottom: none; }
+        .subtitle { text-align: center; font-style: italic; color: #666; margin-bottom: 30px; }
+        code { background: #f4f4f4; padding: 2px 5px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 0.95em; }
+        pre code { display: block; padding: 10px; overflow-x: auto; border: 1px solid #ddd; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #f8f9fa; }
+        .badges { text-align: center; margin-bottom: 40px; }
+        .badges img { margin: 0 5px; height: 20px; }
+        a { color: #3498db; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        ul, ol { margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <h1>⚛️ QuantumTutor v1.0</h1>
+    <div class="subtitle">Arquitectura Neuro-Simbólica para la Educación en Física Cuántica</div>
+    
+    <div class="badges">
+        <img src="https://img.shields.io/badge/version-1.0-blue" alt="Version">
+        <img src="https://img.shields.io/badge/architecture-Neuro--Symbolic_RAG-orange" alt="Architecture">
+        <img src="https://img.shields.io/badge/LLM-Claude_3.5_Sonnet-green" alt="LLM">
+        <img src="https://img.shields.io/badge/Math_Engine-Wolfram_Alpha-red" alt="Math Engine">
+    </div>
+
+    <h2>📋 Tabla de Contenidos</h2>
+    <ol>
+        <li><a href="#1-introducción-y-visión-general">Introducción y Visión General</a></li>
+        <li><a href="#2-arquitectura-del-sistema">Arquitectura del Sistema</a></li>
+        <li><a href="#3-metodología-de-evaluación-protocolo-científico">Metodología de Evaluación</a></li>
+        <li><a href="#4-guía-de-configuración-e-implementación">Guía de Configuración e Implementación</a></li>
+        <li><a href="#5-gestión-de-riesgos-y-gobernanza">Gestión de Riesgos y Gobernanza</a></li>
+        <li><a href="#6-escalabilidad-hacia-el-tutor-de-próxima-generación-v20">Escalabilidad (v2.0)</a></li>
+        <li><a href="#7-apéndice-casos-de-prueba-estándar">Apéndice: Casos de Prueba Estándar</a></li>
+    </ol>
+
+    <h2 id="1-introducción-y-visión-general">1. Introducción y Visión General</h2>
+    <p>El <strong>QuantumTutor</strong> no es un chatbot conversacional estándar. Es un sistema de Inteligencia Artificial híbrido y avanzado, diseñado específicamente para la enseñanza de física a nivel universitario. Para superar las limitaciones inherentes de los Modelos de Lenguaje Grande (LLMs) en matemáticas complejas, este sistema combina:</p>
+    <ul>
+        <li><strong>Capacidad Lingüística:</strong> Para ejecutar un diálogo socrático, empatizar con la frustración del estudiante y adaptar la pedagogía.</li>
+        <li><strong>Recuperación de Información (RAG):</strong> Para garantizar el anclaje (<em>grounding</em>) estricto en el material oficial del curso (apuntes, libros de texto, papers).</li>
+        <li><strong>Razonamiento Simbólico (Wolfram Alpha):</strong> Para garantizar una precisión matemática absoluta, delegando la resolución de integrales, derivadas y álgebra de operadores a un motor computacional determinista, erradicando así las alucinaciones numéricas.</li>
+    </ul>
+
+    <h2 id="2-arquitectura-del-sistema">2. Arquitectura del Sistema</h2>
+    <p>El sistema opera bajo un flujo de <strong>Generación Aumentada por Recuperación (RAG) con Capa de Herramientas (Tool Calling)</strong>.</p>
+    
+    <h3>Componentes Core:</h3>
+    <ul>
+        <li><strong>Capa de Ingesta (<code>ingest.py</code>):</strong> Procesa los documentos PDF de la universidad utilizando <em>Recursive Character Splitting</em> adaptado a Markdown. Esto asegura que los bloques semánticos y las fórmulas en LaTeX no se fragmenten durante la vectorización en la base de datos (Pinecone/Milvus).</li>
+        <li><strong>Orquestador de Diálogo:</strong> El "cerebro" lingüístico impulsado por un LLM de razonamiento avanzado (como Claude 3.5 Sonnet o GPT-4o), parametrizado a través del archivo <code>quantum_tutor_config.json</code>.</li>
+        <li><strong>Motor Simbólico (<code>wolfram_emulator.py</code>):</strong> Una integración directa vía API con Wolfram Alpha. El LLM traduce la física a Wolfram Language para resolver operaciones críticas como la normalización de funciones de onda o la evaluación de valores esperados.</li>
+    </ul>
+
+    <h2 id="3-metodología-de-evaluación-protocolo-científico">3. Metodología de Evaluación (Protocolo Científico)</h2>
+    <p>Para validar el sistema antes de su despliegue frente a estudiantes reales, implementamos un protocolo de evaluación riguroso denominado <strong>"The Quantum Stress Test"</strong>.</p>
+    
+    <h3>Dimensiones de Calidad:</h3>
+    <ul>
+        <li><strong>Fidelidad (Faithfulness):</strong> Medida por la métrica de Hechos Verificados sobre Hechos Totales, asegurando que el LLM no invente conceptos fuera del material de estudio.</li>
+        <li><strong>Precisión Simbólica:</strong> Evaluación del <em>Code Success Rate</em> (CSR); la capacidad del LLM para generar código de Wolfram válido y comparar sus resultados con el <em>Ground Truth</em> algebraico.</li>
+        <li><strong>Eficacia Socrática:</strong> Medición del ratio de retención del estudiante en la conversación. El modelo se evalúa positivamente si logra que el alumno deduzca la respuesta en lugar de entregarle la solución terminada.</li>
+    </ul>
+
+    <h2 id="4-guía-de-configuración-e-implementación">4. Guía de Configuración e Implementación</h2>
+    
+    <h3>Estructura de Archivos en el Entorno (<code>/scratch</code>)</h3>
+    <ul>
+        <li><code>system_prompt.md</code>: Define la personalidad socrática, las reglas de interacción, el uso obligatorio de LaTeX para matemáticas y las restricciones operativas.</li>
+        <li><code>quantum_tutor_config.json</code>: Archivo de orquestación que define parámetros como la temperatura (fijada en 0.2 para mayor determinismo), los modelos de embeddings y los umbrales de similitud del RAG.</li>
+        <li><code>wolfram_emulator.py</code>: Simulador local para realizar pruebas de integración y validar las llamadas a funciones matemáticas (<em>Tool Calling</em>).</li>
+        <li><code>init_quantum_tutor.py</code>: El script principal de arranque que inicializa los agentes y conecta la base de datos vectorial con el LLM.</li>
+        <li><code>ingest.py</code>: Script para cargar los contenidos del curso a la Vector DB.</li>
+    </ul>
+    
+    <h3>Ingeniería de Prompts</h3>
+    <p>El sistema utiliza técnicas de <strong>Few-Shot Prompting</strong> y <strong>Chain-of-Thought (CoT)</strong>. Ante cada consulta, el flujo interno de razonamiento exige:</p>
+    <ol>
+        <li>Identificar las variables conocidas e incógnitas del problema.</li>
+        <li>Recuperar la teoría aplicable desde el RAG.</li>
+        <li>Traducir la operación a código de Wolfram (si requiere cálculo).</li>
+        <li>Formular una pregunta guía socrática para el estudiante.</li>
+    </ol>
+
+    <h2 id="5-gestión-de-riesgos-y-gobernanza">5. Gestión de Riesgos y Gobernanza</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Riesgo Detectado</th>
+                <th>Mecanismo de Mitigación Implementado</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Alucinación Matemática</strong></td>
+                <td>Desvío obligatorio de cálculos complejos a Wolfram Alpha mediante <em>Tool Enforcing</em>.</td>
+            </tr>
+            <tr>
+                <td><strong>Atajo Cognitivo</strong></td>
+                <td>Protocolo Socrático: El sistema tiene prohibido algorítmicamente dar la respuesta final numérica o algebraica en el primer turno de interacción.</td>
+            </tr>
+            <tr>
+                <td><strong>Privacidad de Datos</strong></td>
+                <td>Rutinas de anonimización (eliminación de PII) antes de enviar las consultas a APIs externas (LLM y Wolfram).</td>
+            </tr>
+            <tr>
+                <td><strong>Sesgo Interpretativo</strong></td>
+                <td>Configuración de neutralidad teórica estricta (explicar diferentes modelos sin favorecer ninguno a menos que aplique al currículo).</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2 id="6-escalabilidad-hacia-el-tutor-de-próxima-generación-v20">6. Escalabilidad: Hacia el Tutor de Próxima Generación (v2.0)</h2>
+    <p>Diseñado con una arquitectura modular, el sistema está preparado para integrar futuras capacidades:</p>
+    <ul>
+        <li><strong>Multimodalidad Avanzada:</strong> Capacidad de procesar imágenes de los cuadernos de los alumnos mediante visión computacional y OCR especializado en fórmulas matemáticas, para detectar errores exactos en derivaciones manuales.</li>
+        <li><strong>Razonamiento Simbólico Local:</strong> Sustitución de la API en la nube por librerías locales de Python como SymPy en un entorno <em>sandbox</em>, reduciendo la latencia y la dependencia de servicios externos.</li>
+        <li><strong>Analítica del Aprendizaje (Dashboard):</strong> Un panel de control para el profesorado que, mediante <em>clustering</em> temático, identifique qué conceptos específicos (ej. espín, efecto túnel) están generando la mayor tasa de error o consultas en el grupo.</li>
+    </ul>
+
+    <h2 id="7-apéndice-casos-de-prueba-estándar">7. Apéndice: Casos de Prueba Estándar</h2>
+    
+    <h3>Caso A: Normalización de Función de Onda</h3>
+    <ul>
+        <li><strong>Input del Alumno:</strong> "¿Cómo normalizo una función de onda?"</li>
+        <li><strong>Acción del Sistema:</strong>
+            <ol>
+                <li>Recupera del RAG la definición: la integral de la densidad de probabilidad debe ser la unidad.</li>
+                <li>Explica el concepto físico detrás de la constante de normalización.</li>
+                <li><strong>Salida Socrática:</strong> "Para aplicar esto, ¿qué función de onda específica tienes en tu problema para que planteemos juntos los límites de integración?"</li>
+            </ol>
+        </li>
+    </ul>
+
+    <h3>Caso B: El Pozo de Potencial Infinito (Error de Intuición)</h3>
+    <ul>
+        <li><strong>Input del Alumno:</strong> "Calculé la probabilidad para n=2 en el centro del pozo y me da 0.5, pero creo que está mal."</li>
+        <li><strong>Acción del Sistema:</strong>
+            <ol>
+                <li>El LLM deduce internamente la función correspondiente al nivel cuántico indicado.</li>
+                <li>Llama a Wolfram Alpha para calcular la integral exacta en el intervalo central.</li>
+                <li>Confirma que el resultado matemático del alumno (0.5) es correcto.</li>
+                <li><strong>Salida Socrática:</strong> Explica la existencia de un nodo en el centro para el primer estado excitado y guía al alumno a entender por qué su cálculo es correcto a pesar de contradecir su intuición clásica.</li>
+            </ol>
+        </li>
+    </ul>
+</body>
+</html>

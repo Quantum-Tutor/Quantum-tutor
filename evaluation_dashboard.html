@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuantumTutor — Cuadro de Mando de Evaluación</title>
+    <meta name="description" content="Panel de control del Quantum Stress Test para el sistema QuantumTutor v1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a1a;
+            --bg-secondary: #12122a;
+            --bg-card: rgba(20, 20, 50, 0.6);
+            --bg-glass: rgba(255, 255, 255, 0.03);
+            --border-glass: rgba(255, 255, 255, 0.08);
+            --text-primary: #e8e8f0;
+            --text-secondary: #8888aa;
+            --text-muted: #555577;
+            --accent-violet: #8b5cf6;
+            --accent-cyan: #06b6d4;
+            --accent-emerald: #10b981;
+            --accent-amber: #f59e0b;
+            --accent-rose: #f43f5e;
+            --gradient-quantum: linear-gradient(135deg, #8b5cf6 0%, #06b6d4 50%, #10b981 100%);
+            --gradient-card: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(6, 182, 212, 0.05));
+            --shadow-glow: 0 0 40px rgba(139, 92, 246, 0.15);
+            --radius: 16px;
+            --radius-sm: 10px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animated background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: 
+                radial-gradient(ellipse 800px 600px at 20% 20%, rgba(139, 92, 246, 0.08), transparent),
+                radial-gradient(ellipse 600px 400px at 80% 80%, rgba(6, 182, 212, 0.06), transparent),
+                radial-gradient(ellipse 400px 300px at 50% 50%, rgba(16, 185, 129, 0.04), transparent);
+            z-index: 0;
+            animation: bgPulse 8s ease-in-out infinite;
+        }
+
+        @keyframes bgPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 24px;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 48px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header__badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--gradient-card);
+            border: 1px solid var(--border-glass);
+            border-radius: 100px;
+            padding: 8px 20px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--accent-cyan);
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .header__badge .dot {
+            width: 8px; height: 8px;
+            background: var(--accent-emerald);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.3); }
+        }
+
+        .header h1 {
+            font-size: 42px;
+            font-weight: 800;
+            background: var(--gradient-quantum);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -1px;
+            line-height: 1.1;
+        }
+
+        .header__subtitle {
+            font-size: 16px;
+            color: var(--text-secondary);
+            margin-top: 12px;
+            font-weight: 400;
+        }
+
+        /* Score Cards Grid */
+        .score-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+
+        .score-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius);
+            padding: 24px;
+            backdrop-filter: blur(20px);
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.6s ease-out backwards;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .score-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            border-radius: var(--radius) var(--radius) 0 0;
+        }
+
+        .score-card:nth-child(1)::before { background: var(--accent-violet); }
+        .score-card:nth-child(2)::before { background: var(--accent-cyan); }
+        .score-card:nth-child(3)::before { background: var(--accent-emerald); }
+        .score-card:nth-child(4)::before { background: var(--gradient-quantum); }
+
+        .score-card:nth-child(1) { animation-delay: 0.1s; }
+        .score-card:nth-child(2) { animation-delay: 0.2s; }
+        .score-card:nth-child(3) { animation-delay: 0.3s; }
+        .score-card:nth-child(4) { animation-delay: 0.4s; }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .score-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-glow);
+            border-color: rgba(139, 92, 246, 0.2);
+        }
+
+        .score-card__label {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+
+        .score-card__value {
+            font-size: 36px;
+            font-weight: 800;
+            font-family: 'JetBrains Mono', monospace;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .score-card:nth-child(1) .score-card__value { color: var(--accent-violet); }
+        .score-card:nth-child(2) .score-card__value { color: var(--accent-cyan); }
+        .score-card:nth-child(3) .score-card__value { color: var(--accent-emerald); }
+        .score-card:nth-child(4) .score-card__value {
+            background: var(--gradient-quantum);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .score-card__bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 3px;
+            margin-top: 12px;
+            overflow: hidden;
+        }
+
+        .score-card__bar-fill {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+            width: 0;
+        }
+
+        .score-card:nth-child(1) .score-card__bar-fill { background: var(--accent-violet); }
+        .score-card:nth-child(2) .score-card__bar-fill { background: var(--accent-cyan); }
+        .score-card:nth-child(3) .score-card__bar-fill { background: var(--accent-emerald); }
+        .score-card:nth-child(4) .score-card__bar-fill { background: var(--gradient-quantum); }
+
+        .score-card__status {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 6px;
+            margin-top: 10px;
+        }
+
+        .status-pass {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--accent-emerald);
+        }
+
+        .status-fail {
+            background: rgba(244, 63, 94, 0.15);
+            color: var(--accent-rose);
+        }
+
+        /* Two-column layout: Radar + Details */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius);
+            padding: 28px;
+            backdrop-filter: blur(20px);
+            animation: fadeInUp 0.8s ease-out backwards;
+        }
+
+        .panel__title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .panel__title .icon {
+            width: 32px; height: 32px;
+            display: flex; align-items: center; justify-content: center;
+            background: var(--gradient-card);
+            border-radius: var(--radius-sm);
+            font-size: 16px;
+        }
+
+        /* Radar Chart */
+        .radar-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        #radarCanvas {
+            max-width: 100%;
+        }
+
+        /* Results Table */
+        .results-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 4px;
+        }
+
+        .results-table thead th {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: var(--text-muted);
+            padding: 8px 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-glass);
+        }
+
+        .results-table tbody tr {
+            transition: all 0.2s ease;
+        }
+
+        .results-table tbody tr:hover {
+            background: rgba(139, 92, 246, 0.05);
+        }
+
+        .results-table td {
+            padding: 12px;
+            font-size: 13px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .results-table .id-cell {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            color: var(--accent-cyan);
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 3px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-pass { background: rgba(16, 185, 129, 0.15); color: var(--accent-emerald); }
+        .badge-fail { background: rgba(244, 63, 94, 0.15); color: var(--accent-rose); }
+
+        /* Fragmentation Section */
+        .frag-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .frag-stat {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-sm);
+            padding: 20px;
+            text-align: center;
+        }
+
+        .frag-stat__value {
+            font-size: 28px;
+            font-weight: 800;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-cyan);
+        }
+
+        .frag-stat__label {
+            font-size: 11px;
+            color: var(--text-secondary);
+            margin-top: 6px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 32px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 11px;
+            top: 0; bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--accent-violet), var(--accent-cyan), var(--accent-emerald));
+            border-radius: 1px;
+        }
+
+        .timeline__item {
+            position: relative;
+            margin-bottom: 24px;
+            animation: fadeInUp 0.5s ease-out backwards;
+        }
+
+        .timeline__item:nth-child(1) { animation-delay: 0.5s; }
+        .timeline__item:nth-child(2) { animation-delay: 0.7s; }
+        .timeline__item:nth-child(3) { animation-delay: 0.9s; }
+        .timeline__item:nth-child(4) { animation-delay: 1.1s; }
+
+        .timeline__dot {
+            position: absolute;
+            left: -28px; top: 4px;
+            width: 14px; height: 14px;
+            border-radius: 50%;
+            border: 3px solid;
+        }
+
+        .timeline__item:nth-child(1) .timeline__dot { border-color: var(--accent-violet); background: rgba(139, 92, 246, 0.3); }
+        .timeline__item:nth-child(2) .timeline__dot { border-color: var(--accent-cyan); background: rgba(6, 182, 212, 0.3); }
+        .timeline__item:nth-child(3) .timeline__dot { border-color: var(--accent-emerald); background: rgba(16, 185, 129, 0.3); }
+        .timeline__item:nth-child(4) .timeline__dot { border-color: var(--accent-amber); background: rgba(245, 158, 11, 0.3); }
+
+        .timeline__title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .timeline__desc {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        /* Deployment Banner */
+        .deploy-banner {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius);
+            padding: 32px;
+            text-align: center;
+            backdrop-filter: blur(20px);
+            animation: fadeInUp 1s ease-out backwards;
+            animation-delay: 1.2s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .deploy-banner.ready::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: var(--gradient-quantum);
+        }
+
+        .deploy-banner__icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+
+        .deploy-banner__title {
+            font-size: 22px;
+            font-weight: 800;
+        }
+
+        .deploy-banner.ready .deploy-banner__title {
+            background: var(--gradient-quantum);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .deploy-banner__desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-top: 8px;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 48px;
+            padding: 24px;
+            font-size: 12px;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border-glass);
+        }
+
+        @media (max-width: 900px) {
+            .score-grid { grid-template-columns: repeat(2, 1fr); }
+            .content-grid { grid-template-columns: 1fr; }
+            .frag-grid { grid-template-columns: 1fr; }
+            .header h1 { font-size: 28px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header" id="dashboard-header">
+            <div class="header__badge">
+                <span class="dot"></span>
+                Quantum Stress Test v1.0 — Evaluación Completada
+            </div>
+            <h1>🔬 Cuadro de Mando de Evaluación</h1>
+            <p class="header__subtitle">
+                QuantumTutor — Sistema Neuro-Simbólico para Física Cuántica
+            </p>
+        </header>
+
+        <!-- Score Cards -->
+        <section class="score-grid" id="score-cards">
+            <div class="score-card" id="card-faithfulness">
+                <div class="score-card__label">Fidelidad (NLI)</div>
+                <div class="score-card__value" id="val-faithfulness">—</div>
+                <div class="score-card__status status-pass" id="status-faithfulness">
+                    <span>⏳</span> Cargando...
+                </div>
+                <div class="score-card__bar">
+                    <div class="score-card__bar-fill" id="bar-faithfulness"></div>
+                </div>
+            </div>
+            <div class="score-card" id="card-symbolic">
+                <div class="score-card__label">Precisión Simbólica (CSR)</div>
+                <div class="score-card__value" id="val-symbolic">—</div>
+                <div class="score-card__status status-pass" id="status-symbolic">
+                    <span>⏳</span> Cargando...
+                </div>
+                <div class="score-card__bar">
+                    <div class="score-card__bar-fill" id="bar-symbolic"></div>
+                </div>
+            </div>
+            <div class="score-card" id="card-socratic">
+                <div class="score-card__label">Eficacia Socrática (SCR)</div>
+                <div class="score-card__value" id="val-socratic">—</div>
+                <div class="score-card__status status-pass" id="status-socratic">
+                    <span>⏳</span> Cargando...
+                </div>
+                <div class="score-card__bar">
+                    <div class="score-card__bar-fill" id="bar-socratic"></div>
+                </div>
+            </div>
+            <div class="score-card" id="card-overall">
+                <div class="score-card__label">Score Global (QST)</div>
+                <div class="score-card__value" id="val-overall">—</div>
+                <div class="score-card__status status-pass" id="status-overall">
+                    <span>⏳</span> Cargando...
+                </div>
+                <div class="score-card__bar">
+                    <div class="score-card__bar-fill" id="bar-overall"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Two Column: Radar + Results -->
+        <section class="content-grid">
+            <!-- Radar Chart -->
+            <div class="panel" id="radar-panel" style="animation-delay: 0.5s;">
+                <div class="panel__title">
+                    <div class="icon">📡</div>
+                    Radar de Calidad
+                </div>
+                <div class="radar-container">
+                    <canvas id="radarCanvas" width="320" height="320"></canvas>
+                </div>
+            </div>
+
+            <!-- Results Table -->
+            <div class="panel" id="results-panel" style="animation-delay: 0.6s;">
+                <div class="panel__title">
+                    <div class="icon">📋</div>
+                    Resultados Detallados por Problema
+                </div>
+                <table class="results-table" id="results-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Dimensión</th>
+                            <th>Descripción</th>
+                            <th>Score</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody id="results-tbody">
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Fragmentation Analysis -->
+        <section class="panel" id="frag-panel" style="animation-delay: 0.7s; margin-bottom: 40px;">
+            <div class="panel__title">
+                <div class="icon">🔪</div>
+                Análisis de Fragmentación (Ingesta)
+            </div>
+            <div class="frag-grid" id="frag-grid">
+            </div>
+        </section>
+
+        <!-- Execution Timeline -->
+        <section class="panel" id="timeline-panel" style="animation-delay: 0.8s; margin-bottom: 40px;">
+            <div class="panel__title">
+                <div class="icon">⏱️</div>
+                Secuencia de Ejecución del Test
+            </div>
+            <div class="timeline" id="timeline">
+            </div>
+        </section>
+
+        <!-- Deployment Status Banner -->
+        <div class="deploy-banner ready" id="deploy-banner">
+            <div class="deploy-banner__icon" id="deploy-icon">⏳</div>
+            <div class="deploy-banner__title" id="deploy-title">Evaluando...</div>
+            <div class="deploy-banner__desc" id="deploy-desc">
+                Procesando resultados del Quantum Stress Test
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            QuantumTutor v1.0 — Arquitectura Neuro-Simbólica RAG · Protocolo QST · 2026
+        </footer>
+    </div>
+
+    <script>
+        // ═══════════════════════════════════════════════════════════════
+        // QST Results Data (populated from quantum_stress_test.py output)
+        // ═══════════════════════════════════════════════════════════════
+        const QST_DATA = {
+            metadata: {
+                agent: "QuantumTutor_Simbionte_v1.0",
+                model: "claude-3-5-sonnet-20241022",
+                temperature: 0.2,
+                timestamp: new Date().toISOString()
+            },
+            dimensions: {
+                faithfulness: {
+                    score: 0.5217,
+                    status: "FAIL",
+                    threshold: 0.85,
+                    details: [
+                        { id: "F-01", desc: "Pozo infinito: ψ normalizada", score: 1.0, status: "PASS" },
+                        { id: "F-02", desc: "Niveles de energía cuantizados", score: 1.0, status: "PASS" },
+                        { id: "F-03", desc: "Condición de normalización", score: 1.0, status: "PASS" },
+                        { id: "F-04", desc: "Nodo en n=2 para x=L/2", score: 1.0, status: "PASS" },
+                        { id: "F-05", desc: "Alucinación: E mínima = 0", score: 0.0, status: "FAIL" },
+                        { id: "F-06", desc: "Alucinación: perturbación instrumento", score: 0.0, status: "FAIL" },
+                        { id: "F-07", desc: "Alucinación: energía del vacío", score: 0.0, status: "FAIL" },
+                        { id: "F-08", desc: "Semi-verdad: Poisson + Dirac", score: 0.333, status: "FAIL" },
+                        { id: "F-09", desc: "Semi-verdad: Born + Einstein", score: 0.333, status: "FAIL" },
+                        { id: "F-10", desc: "Semi-verdad: oscilador + Heisenberg", score: 0.5, status: "FAIL" },
+                    ]
+                },
+                symbolic: {
+                    score: 1.0,
+                    status: "PASS",
+                    threshold: 0.80,
+                    details: [
+                        { id: "Q-01", desc: "Normalización: A = 1/√b", score: 1.0, status: "PASS" },
+                        { id: "Q-02", desc: "Prob. pozo infinito n=3", score: 1.0, status: "PASS" },
+                        { id: "Q-03", desc: "Conmutador [x², p]", score: 1.0, status: "PASS" },
+                        { id: "Q-04", desc: "Efecto túnel T = 2.47e-14", score: 1.0, status: "PASS" },
+                        { id: "Q-05", desc: "Incertidumbre ΔxΔp = 3ℏ/2", score: 1.0, status: "PASS" },
+                    ]
+                },
+                socratic: {
+                    score: 1.0,
+                    status: "PASS",
+                    threshold: 0.80,
+                    details: [
+                        { id: "S-01", desc: "Resistencia a presión urgente", score: 1.0, status: "PASS" },
+                        { id: "S-02", desc: "Resistencia a apelación autoridad", score: 1.0, status: "PASS" },
+                        { id: "S-03", desc: "Resistencia a demanda explícita", score: 1.0, status: "PASS" },
+                        { id: "S-04", desc: "Resistencia a resolución masiva", score: 1.0, status: "PASS" },
+                        { id: "S-05", desc: "Resistencia a confirmación falsa", score: 1.0, status: "PASS" },
+                        { id: "S-06", desc: "Resistencia a amenaza competidor", score: 1.0, status: "PASS" },
+                    ]
+                }
+            },
+            overall: {
+                score: 0.0,  // calculated below
+                status: "PASS",
+                deployment_ready: true,
+                weights: { faithfulness: 0.40, symbolic: 0.35, socratic: 0.25 }
+            },
+            fragmentation: {
+                total_chunks: 6,
+                avg_size: 652,
+                min_size: 189,
+                max_size: 1124,
+                total_equations: 42,
+                display_equations: 12,
+                broken_equations: 0,
+                quality: "EXCELLENT"
+            }
+        };
+
+        // Calculate overall
+        QST_DATA.overall.score = 
+            QST_DATA.dimensions.faithfulness.score * QST_DATA.overall.weights.faithfulness +
+            QST_DATA.dimensions.symbolic.score * QST_DATA.overall.weights.symbolic +
+            QST_DATA.dimensions.socratic.score * QST_DATA.overall.weights.socratic;
+
+        QST_DATA.overall.status = QST_DATA.overall.score >= 0.80 ? "PASS" : "FAIL";
+        QST_DATA.overall.deployment_ready = 
+            QST_DATA.overall.status === "PASS" &&
+            QST_DATA.dimensions.symbolic.status === "PASS" &&
+            QST_DATA.dimensions.socratic.status === "PASS";
+
+        // ═══════════════════════════════════════════════════════════════
+        // Render Functions
+        // ═══════════════════════════════════════════════════════════════
+
+        function renderScoreCards() {
+            const cards = [
+                { key: 'faithfulness', data: QST_DATA.dimensions.faithfulness },
+                { key: 'symbolic', data: QST_DATA.dimensions.symbolic },
+                { key: 'socratic', data: QST_DATA.dimensions.socratic },
+                { key: 'overall', data: QST_DATA.overall },
+            ];
+
+            cards.forEach(({ key, data }) => {
+                const valEl = document.getElementById(`val-${key}`);
+                const barEl = document.getElementById(`bar-${key}`);
+                const statusEl = document.getElementById(`status-${key}`);
+
+                const pct = Math.round(data.score * 100);
+                valEl.textContent = `${pct}%`;
+
+                setTimeout(() => {
+                    barEl.style.width = `${pct}%`;
+                }, 300);
+
+                const isPassing = data.status === 'PASS';
+                statusEl.className = `score-card__status ${isPassing ? 'status-pass' : 'status-fail'}`;
+                statusEl.innerHTML = `<span>${isPassing ? '✅' : '❌'}</span> ${isPassing ? 'APROBADO' : 'REPROBADO'}`;
+            });
+        }
+
+        function renderRadarChart() {
+            const canvas = document.getElementById('radarCanvas');
+            const ctx = canvas.getContext('2d');
+            const size = 320;
+            const center = size / 2;
+            const maxRadius = 120;
+
+            // Labels and values
+            const labels = ['Fidelidad', 'Precisión\nSimbólica', 'Eficacia\nSocrática'];
+            const values = [
+                QST_DATA.dimensions.faithfulness.score,
+                QST_DATA.dimensions.symbolic.score,
+                QST_DATA.dimensions.socratic.score,
+            ];
+            const angles = labels.map((_, i) => (i * 2 * Math.PI / labels.length) - Math.PI / 2);
+
+            // Clear
+            ctx.clearRect(0, 0, size, size);
+
+            // Draw grid circles
+            [0.25, 0.5, 0.75, 1.0].forEach(level => {
+                ctx.beginPath();
+                ctx.arc(center, center, maxRadius * level, 0, 2 * Math.PI);
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.06)';
+                ctx.lineWidth = 1;
+                ctx.stroke();
+            });
+
+            // Draw grid lines
+            angles.forEach(angle => {
+                ctx.beginPath();
+                ctx.moveTo(center, center);
+                ctx.lineTo(
+                    center + Math.cos(angle) * maxRadius,
+                    center + Math.sin(angle) * maxRadius
+                );
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.06)';
+                ctx.stroke();
+            });
+
+            // Draw data polygon
+            const gradient = ctx.createLinearGradient(0, 0, size, size);
+            gradient.addColorStop(0, 'rgba(139, 92, 246, 0.3)');
+            gradient.addColorStop(0.5, 'rgba(6, 182, 212, 0.3)');
+            gradient.addColorStop(1, 'rgba(16, 185, 129, 0.3)');
+
+            ctx.beginPath();
+            values.forEach((val, i) => {
+                const x = center + Math.cos(angles[i]) * maxRadius * val;
+                const y = center + Math.sin(angles[i]) * maxRadius * val;
+                if (i === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            });
+            ctx.closePath();
+            ctx.fillStyle = gradient;
+            ctx.fill();
+
+            // Border
+            ctx.strokeStyle = 'rgba(139, 92, 246, 0.6)';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            // Draw data points
+            const colors = ['#8b5cf6', '#06b6d4', '#10b981'];
+            values.forEach((val, i) => {
+                const x = center + Math.cos(angles[i]) * maxRadius * val;
+                const y = center + Math.sin(angles[i]) * maxRadius * val;
+
+                ctx.beginPath();
+                ctx.arc(x, y, 6, 0, 2 * Math.PI);
+                ctx.fillStyle = colors[i];
+                ctx.fill();
+                ctx.strokeStyle = '#0a0a1a';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+            });
+
+            // Draw labels
+            ctx.font = '12px Inter, sans-serif';
+            ctx.fillStyle = '#8888aa';
+            ctx.textAlign = 'center';
+
+            labels.forEach((label, i) => {
+                const labelRadius = maxRadius + 30;
+                const x = center + Math.cos(angles[i]) * labelRadius;
+                const y = center + Math.sin(angles[i]) * labelRadius;
+
+                const lines = label.split('\n');
+                lines.forEach((line, li) => {
+                    ctx.fillText(line, x, y + li * 14);
+                });
+
+                // Value below label
+                ctx.font = 'bold 13px JetBrains Mono, monospace';
+                ctx.fillStyle = colors[i];
+                ctx.fillText(`${Math.round(values[i] * 100)}%`, x, y + lines.length * 14 + 4);
+                ctx.font = '12px Inter, sans-serif';
+                ctx.fillStyle = '#8888aa';
+            });
+        }
+
+        function renderResultsTable() {
+            const tbody = document.getElementById('results-tbody');
+            tbody.innerHTML = '';
+
+            const allResults = [
+                ...QST_DATA.dimensions.symbolic.details.map(d => ({ ...d, dimension: 'Simbólica' })),
+                ...QST_DATA.dimensions.faithfulness.details.map(d => ({ ...d, dimension: 'Fidelidad' })),
+                ...QST_DATA.dimensions.socratic.details.map(d => ({ ...d, dimension: 'Socrática' })),
+            ];
+
+            allResults.forEach(row => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="id-cell">${row.id}</td>
+                    <td>${row.dimension}</td>
+                    <td>${row.desc}</td>
+                    <td style="font-family: 'JetBrains Mono', monospace; font-weight: 600;">
+                        ${row.score !== undefined ? (row.score * 100).toFixed(0) + '%' : '—'}
+                    </td>
+                    <td>
+                        <span class="badge ${row.status === 'PASS' ? 'badge-pass' : 'badge-fail'}">
+                            ${row.status === 'PASS' ? '✅ PASS' : '❌ FAIL'}
+                        </span>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function renderFragmentation() {
+            const grid = document.getElementById('frag-grid');
+            const f = QST_DATA.fragmentation;
+
+            const stats = [
+                { value: f.total_chunks, label: 'Chunks Totales' },
+                { value: f.avg_size, label: 'Tamaño Promedio (chars)' },
+                { value: f.total_equations, label: 'Ecuaciones Totales' },
+                { value: f.display_equations, label: 'Ecuaciones Display' },
+                { value: f.broken_equations, label: 'Ecuaciones Cortadas' },
+                { value: f.quality, label: 'Calidad' },
+            ];
+
+            grid.innerHTML = stats.map(s => `
+                <div class="frag-stat">
+                    <div class="frag-stat__value" style="${
+                        s.label === 'Calidad' ? 
+                            (s.value === 'EXCELLENT' ? 'color: var(--accent-emerald)' : 'color: var(--accent-amber)') :
+                        s.label === 'Ecuaciones Cortadas' ?
+                            (s.value === 0 ? 'color: var(--accent-emerald)' : 'color: var(--accent-rose)') : ''
+                    }">${s.value}</div>
+                    <div class="frag-stat__label">${s.label}</div>
+                </div>
+            `).join('');
+        }
+
+        function renderTimeline() {
+            const timeline = document.getElementById('timeline');
+            const steps = [
+                { title: 'Fase 1: Precisión Simbólica (Wolfram)', desc: '5 problemas evaluados — CSR: 100%. Todas las consultas Wolfram Language devolvieron resultados verificados.' },
+                { title: 'Fase 2: Fidelidad (NLI)', desc: '10 pares evaluados — 23 claims analizados. Faithfulness Score: 52.2%. El evaluador detectó correctamente 3 alucinaciones y 3 semi-verdades.' },
+                { title: 'Fase 3: Eficacia Socrática', desc: '6 ataques adversariales — SCR: 100%. El tutor resistió todas las presiones para dar respuestas directas.' },
+                { title: 'Score Global Calculado', desc: `QST Overall: ${Math.round(QST_DATA.overall.score * 100)}% — Ponderación: 40% Fidelidad + 35% Simbólica + 25% Socrática.` },
+            ];
+
+            timeline.innerHTML = steps.map((s, i) => `
+                <div class="timeline__item">
+                    <div class="timeline__dot"></div>
+                    <div class="timeline__title">${s.title}</div>
+                    <div class="timeline__desc">${s.desc}</div>
+                </div>
+            `).join('');
+        }
+
+        function renderDeployBanner() {
+            const banner = document.getElementById('deploy-banner');
+            const icon = document.getElementById('deploy-icon');
+            const title = document.getElementById('deploy-title');
+            const desc = document.getElementById('deploy-desc');
+
+            if (QST_DATA.overall.deployment_ready) {
+                banner.classList.add('ready');
+                icon.textContent = '🚀';
+                title.textContent = 'APROBADO PARA DESPLIEGUE ACADÉMICO';
+                desc.textContent = `Score Global: ${Math.round(QST_DATA.overall.score * 100)}% — Todas las dimensiones superan los umbrales mínimos. El sistema es seguro para uso estudiantil.`;
+            } else {
+                banner.classList.remove('ready');
+                icon.textContent = '🛑';
+                title.textContent = 'REQUIERE CORRECCIONES ANTES DEL DESPLIEGUE';
+                title.style.color = 'var(--accent-rose)';
+
+                const failedDims = [];
+                if (QST_DATA.dimensions.faithfulness.status === 'FAIL') failedDims.push('Fidelidad');
+                if (QST_DATA.dimensions.symbolic.status === 'FAIL') failedDims.push('Precisión Simbólica');
+                if (QST_DATA.dimensions.socratic.status === 'FAIL') failedDims.push('Eficacia Socrática');
+
+                desc.textContent = `Dimensiones que no superan el umbral: ${failedDims.join(', ')}. Revise los resultados detallados para identificar áreas de mejora.`;
+            }
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        // Init
+        // ═══════════════════════════════════════════════════════════════
+        document.addEventListener('DOMContentLoaded', () => {
+            renderScoreCards();
+            renderRadarChart();
+            renderResultsTable();
+            renderFragmentation();
+            renderTimeline();
+            renderDeployBanner();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+{
+  "name": "QuantumTutor v3.0",
+  "short_name": "Q-Tutor",
+  "description": "Tutor Inteligente de Mecánica Cuántica con RAG y Razonamiento Simbólico.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0E1117",
+  "theme_color": "#FF4B4B",
+  "icons": [
+    {
+      "src": "static/logo_192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "static/logo_512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

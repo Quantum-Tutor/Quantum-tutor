@@ -1,0 +1,43 @@
+{
+  "simulation": "Case B - Infinite Potential Well",
+  "timestamp": "2026-03-16T15:02:29.840427",
+  "student_input": "Hola, estoy intentando calcular la probabilidad de encontrar al electron en el centro del pozo (entre L/4 y 3L/4) para el nivel n=2, pero me sale que es 0.5 y mi libro dice que es diferente. Me ayudas?",
+  "cot_analysis": {
+    "problema_detectado": "Calculo de probabilidad en pozo de potencial infinito",
+    "nivel_cuantico": "n = 2 (primer estado excitado)",
+    "region_interes": "[L/4, 3L/4] (centro del pozo)",
+    "resultado_alumno": 0.5,
+    "hipotesis_tutor": "El alumno posiblemente tiene razon matematicamente. Para n=2, la funcion de onda tiene un nodo en L/2, lo que hace que la integral en la region central pueda dar 0.5. Debemos verificar con Wolfram y explicar la fisica.",
+    "requiere_wolfram": true,
+    "principios_aplicables": [
+      "Condiciones de frontera del pozo infinito",
+      "Funcion de onda normalizada: psi_n(x) = sqrt(2/L) sin(n*pi*x/L)",
+      "Densidad de probabilidad: |psi_n(x)|^2",
+      "Concepto de nodos cuanticos"
+    ]
+  },
+  "rag_retrieval": {
+    "chunk_id": "chunk_1",
+    "section": "2.1 El Pozo de Potencial Infinito",
+    "relevance_score": 4
+  },
+  "wolfram_call": {
+    "query": "Integrate[(Sqrt[2/L] Sin[2 Pi x / L])^2, {x, L/4, 3L/4}]",
+    "result": 0.5,
+    "status": "success",
+    "validation": "ERROR"
+  },
+  "student_validation": {
+    "student_answer": 0.5,
+    "correct": true
+  },
+  "socratic_compliance": {
+    "Contiene pregunta guia": true,
+    "NO da respuesta directa al alumno": true,
+    "Usa scaffolding (andamiaje)": true,
+    "Referencia al material del curso": true,
+    "Explica concepto fisico (nodo)": true,
+    "Valida el trabajo del alumno": true
+  },
+  "overall_status": "PASS"
+}

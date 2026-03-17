@@ -1,0 +1,37 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Secrets & Config
+.env
+student_profile.json
+*.log
+ocr_batch_checkpoint.json
+
+# Large Assets
+books/
+*.pdf
+galindo_pascual_full_ocr.txt
+
+# OS
+.DS_Store
+Thumbs.db

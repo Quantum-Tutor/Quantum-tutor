@@ -1,0 +1,19 @@
+# Streamlit Dependencies for QuantumTutor v3.0
+streamlit>=1.30.0
+pandas
+sentence-transformers
+sympy
+qrcode[pil]
+requests
+PyMuPDF
+easyocr
+torch
+torchvision
+numpy
+python-dotenv
+# Pinecone connector for production
+pinecone-client
+# Supabase for persistent learning analytics
+supabase
+# PWA support
+streamlit-pwa

@@ -1,0 +1,62 @@
+{
+  "pipeline_status": "completed",
+  "timestamp": "2026-03-16T14:44:11.488561",
+  "documents_processed": 1,
+  "fragmentation_analysis": {
+    "total_chunks": 6,
+    "avg_chunk_size": 419.2,
+    "min_chunk_size": 33,
+    "max_chunk_size": 708,
+    "total_equations": 33,
+    "total_display_equations": 12,
+    "avg_equations_per_chunk": 5.5,
+    "chunks_with_equations": 5,
+    "chunks_without_equations": 1,
+    "broken_equations": 0,
+    "fragmentation_quality": "EXCELLENT",
+    "chunks_detail": [
+      {
+        "id": "chunk_0",
+        "section": "Sección 1",
+        "size": 33,
+        "equations": 0,
+        "display_eqs": 0
+      },
+      {
+        "id": "chunk_1",
+        "section": "2.1 El Pozo de Potencial Infinito",
+        "size": 708,
+        "equations": 13,
+        "display_eqs": 3
+      },
+      {
+        "id": "chunk_2",
+        "section": "2.2 Normalización de Funciones de Onda",
+        "size": 424,
+        "equations": 5,
+        "display_eqs": 2
+      },
+      {
+        "id": "chunk_3",
+        "section": "2.3 Relaciones de Conmutación",
+        "size": 435,
+        "equations": 4,
+        "display_eqs": 3
+      },
+      {
+        "id": "chunk_4",
+        "section": "2.4 Efecto Túnel Cuántico",
+        "size": 368,
+        "equations": 4,
+        "display_eqs": 1
+      },
+      {
+        "id": "chunk_5",
+        "section": "2.5 Oscilador Armónico Cuántico",
+        "size": 547,
+        "equations": 7,
+        "display_eqs": 3
+      }
+    ]
+  }
+}

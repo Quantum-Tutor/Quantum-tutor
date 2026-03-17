@@ -1,0 +1,170 @@
+{
+  "test_name": "Real Ingestion Test - Galindo & Pascual QM1",
+  "timestamp": "2026-03-16T15:12:05.172823",
+  "document": "C:\\Users\\abske\\.gemini\\antigravity\\scratch\\quantum_tutor\\material_curso\\galindo_pascual_qm1_sample.md",
+  "fragmentation": {
+    "total_chunks": 7,
+    "avg_chunk_size": 1357.3,
+    "min_chunk_size": 178,
+    "max_chunk_size": 2238,
+    "total_equations": 107,
+    "total_display_equations": 38,
+    "avg_equations_per_chunk": 15.3,
+    "chunks_with_equations": 6,
+    "chunks_without_equations": 1,
+    "broken_equations": 0,
+    "fragmentation_quality": "EXCELLENT",
+    "chunks_detail": [
+      {
+        "id": "chunk_0",
+        "section": "Sección 1",
+        "size": 178,
+        "equations": 0,
+        "display_eqs": 0
+      },
+      {
+        "id": "chunk_1",
+        "section": "Capítulo 1: Fundamentos de la Mecánica Cuántica",
+        "size": 2024,
+        "equations": 22,
+        "display_eqs": 3
+      },
+      {
+        "id": "chunk_2",
+        "section": "Capítulo 2: La Ecuación de Schrödinger",
+        "size": 2238,
+        "equations": 35,
+        "display_eqs": 9
+      },
+      {
+        "id": "chunk_3",
+        "section": "Capítulo 3: Operadores y Conmutadores",
+        "size": 1405,
+        "equations": 14,
+        "display_eqs": 7
+      },
+      {
+        "id": "chunk_4",
+        "section": "Capítulo 4: El Oscilador Armónico Cuántico",
+        "size": 1720,
+        "equations": 19,
+        "display_eqs": 10
+      },
+      {
+        "id": "chunk_5",
+        "section": "Capítulo 5: Efecto Túnel",
+        "size": 1438,
+        "equations": 12,
+        "display_eqs": 6
+      },
+      {
+        "id": "chunk_6",
+        "section": "Capítulo 6: Problemas Resueltos",
+        "size": 498,
+        "equations": 5,
+        "display_eqs": 3
+      }
+    ]
+  },
+  "equation_integrity": {
+    "total_chunks": 7,
+    "equations_by_chunk": [
+      {
+        "chunk_id": 0,
+        "section": "Sección 1",
+        "char_count": 178,
+        "display_equations": 0,
+        "display_balanced": true,
+        "inline_balanced": true,
+        "integrity": "OK",
+        "key_formulas": []
+      },
+      {
+        "chunk_id": 1,
+        "section": "Capítulo 1: Fundamentos de la Mecánica Cuántica",
+        "char_count": 2024,
+        "display_equations": 3,
+        "display_balanced": true,
+        "inline_balanced": true,
+        "integrity": "OK",
+        "key_formulas": [
+          "Schrodinger"
+        ]
+      },
+      {
+        "chunk_id": 2,
+        "section": "Capítulo 2: La Ecuación de Schrödinger",
+        "char_count": 2238,
+        "display_equations": 9,
+        "display_balanced": true,
+        "inline_balanced": true,
+        "integrity": "OK",
+        "key_formulas": [
+          "Pozo infinito psi",
+          "Energia cuantizada"
+        ]
+      },
+      {
+        "chunk_id": 3,
+        "section": "Capítulo 3: Operadores y Conmutadores",
+        "char_count": 1405,
+        "display_equations": 7,
+        "display_balanced": true,
+        "inline_balanced": true,
+        "integrity": "OK",
+        "key_formulas": [
+          "Conmutador",
+          "Incertidumbre"
+        ]
+      },
+      {
+        "chunk_id": 4,
+        "section": "Capítulo 4: El Oscilador Armónico Cuántico",
+        "char_count": 1720,
+        "display_equations": 10,
+        "display_balanced": true,
+        "inline_balanced": true,
+        "integrity": "OK",
+        "key_formulas": [
+          "Energia cuantizada",
+          "Conmutador",
+          "Oscilador"
+        ]
+      },
+      {
+        "chunk_id": 5,
+        "section": "Capítulo 5: Efecto Túnel",
+        "char_count": 1438,
+        "display_equations": 6,
+        "display_balanced": true,
+        "inline_balanced": true,
+        "integrity": "OK",
+        "key_formulas": [
+          "Tunel"
+        ]
+      },
+      {
+        "chunk_id": 6,
+        "section": "Capítulo 6: Problemas Resueltos",
+        "char_count": 498,
+        "display_equations": 3,
+        "display_balanced": true,
+        "inline_balanced": true,
+        "integrity": "OK",
+        "key_formulas": [
+          "Normalizacion"
+        ]
+      }
+    ],
+    "broken_display_equations": [],
+    "broken_inline_equations": [],
+    "cross_chunk_formulas": [],
+    "summary": {
+      "total_display_equations": 38,
+      "total_broken": 0,
+      "equation_integrity_rate": 1.0,
+      "verdict": "PASS"
+    }
+  },
+  "verdict": "PASS"
+}
