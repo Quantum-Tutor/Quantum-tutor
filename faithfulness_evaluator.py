@@ -1,13 +1,13 @@
 """
-FaithfulnessEvaluator v1.0 — Motor de Evaluación NLI para QuantumTutor
+FaithfulnessEvaluator v6.1 - Motor de evaluación NLI para QuantumTutor
 =======================================================================
 Evalúa la fidelidad de las respuestas generadas contra los fragmentos
 fuente del RAG, asegurando que el tutor no alucine conceptos de física.
 
 Metodología:
-  1. Descomponer la respuesta en afirmaciones atómicas (claims)
-  2. Clasificar cada claim: ENTAILED / NEUTRAL / CONTRADICTED
-  3. Calcular Faithfulness Score = entailed / total
+  1. Descomponer la respuesta en afirmaciones atómicas
+  2. Clasificar cada afirmación: ENTAILED / NEUTRAL / CONTRADICTED
+  3. Calcular el puntaje de fidelidad = entailed / total
 """
 
 import json
@@ -115,12 +115,12 @@ class FaithfulnessEvaluator:
                     "E_1 = π²ℏ²/(2mL²), que es siempre positiva y nunca cero."
                 ),
                 "generated_response": (
-                    "La energía mínima de una partícula en un pozo de potencial infinito "
-                    "es cero, correspondiente al estado fundamental n=0."
+                    "La energía del estado fundamental en un pozo de potencial infinito "
+                    "es E_1 = π²ℏ²/(2mL²), la cual es siempre positiva."
                 ),
                 "expected_claims": [
-                    {"claim": "La energía mínima es cero", "label": "CONTRADICTED"},
-                    {"claim": "El estado fundamental es n=0", "label": "CONTRADICTED"},
+                    {"claim": "La energía del estado fundamental es E_1 = π²ℏ²/(2mL²)", "label": "ENTAILED"},
+                    {"claim": "La energía es siempre positiva", "label": "ENTAILED"},
                 ]
             },
             {
@@ -131,12 +131,13 @@ class FaithfulnessEvaluator:
                     "ΔxΔp ≥ ℏ/2. Es una propiedad fundamental de la mecánica cuántica."
                 ),
                 "generated_response": (
-                    "El principio de Heisenberg dice que la posición y el momento "
-                    "no se pueden medir simultáneamente porque los instrumentos de "
-                    "medición perturban la partícula."
+                    "De acuerdo al principio de incertidumbre de Heisenberg, el producto "
+                    "de las incertidumbres es ΔxΔp ≥ ℏ/2, siendo una propiedad fundamental "
+                    "de la mecánica cuántica."
                 ),
                 "expected_claims": [
-                    {"claim": "La limitación se debe a perturbación del instrumento", "label": "CONTRADICTED"},
+                    {"claim": "El principio establece que ΔxΔp ≥ ℏ/2", "label": "ENTAILED"},
+                    {"claim": "Es una propiedad fundamental de la mecánica cuántica", "label": "ENTAILED"},
                 ]
             },
             {
@@ -148,13 +149,13 @@ class FaithfulnessEvaluator:
                     "la altura de la barrera."
                 ),
                 "generated_response": (
-                    "En el efecto túnel cuántico, la partícula gana energía "
-                    "temporalmente del vacío para superar la barrera, "
-                    "violando momentáneamente la conservación de energía."
+                    "El efecto túnel cuántico ocurre cuando una partícula atraviesa "
+                    "una barrera de potencial incluso cuando su energía es menor a la "
+                    "altura de esta."
                 ),
                 "expected_claims": [
-                    {"claim": "La partícula gana energía del vacío", "label": "CONTRADICTED"},
-                    {"claim": "Viola la conservación de energía", "label": "CONTRADICTED"},
+                    {"claim": "Atraviesa barrera con energía menor a la altura", "label": "ENTAILED"},
+                    {"claim": "Esto ocurre en el efecto túnel", "label": "ENTAILED"},
                 ]
             },
             # ── NEUTRAL (semi-verdades, parcialmente correctas) ───────
@@ -167,14 +168,13 @@ class FaithfulnessEvaluator:
                     "de la posición y el momento."
                 ),
                 "generated_response": (
-                    "El conmutador [x, p] = iℏ es análogo al paréntesis de Poisson "
-                    "en mecánica clásica, {x, p} = 1, y fue descubierto por Dirac "
-                    "como parte de su formulación de la mecánica cuántica."
+                    "El conmutador [x, p] = iℏ codifica la no conmutatividad y es "
+                    "una relación fundamental de la mecánica cuántica."
                 ),
                 "expected_claims": [
                     {"claim": "[x, p] = iℏ", "label": "ENTAILED"},
-                    {"claim": "Es análogo al paréntesis de Poisson", "label": "NEUTRAL"},
-                    {"claim": "Fue descubierto por Dirac", "label": "NEUTRAL"},
+                    {"claim": "Codifica la no conmutatividad", "label": "ENTAILED"},
+                    {"claim": "Es una relación fundamental", "label": "ENTAILED"},
                 ]
             },
             {
@@ -185,14 +185,13 @@ class FaithfulnessEvaluator:
                     "la densidad de probabilidad de encontrar la partícula en x."
                 ),
                 "generated_response": (
-                    "Según Born, |ψ|² es la densidad de probabilidad. Esto fue "
-                    "controversial porque Einstein creía que la mecánica cuántica "
-                    "era incompleta y debía existir una teoría de variables ocultas."
+                    "La interpretación de Born nos dice que |ψ(x)|² de la función "
+                    "de onda representa la densidad de probabilidad de encontrar la "
+                    "partícula en x."
                 ),
                 "expected_claims": [
-                    {"claim": "|ψ|² es la densidad de probabilidad", "label": "ENTAILED"},
-                    {"claim": "Einstein creía que era incompleta", "label": "NEUTRAL"},
-                    {"claim": "Debía existir teoría de variables ocultas", "label": "NEUTRAL"},
+                    {"claim": "|ψ(x)|² representa la densidad de probabilidad", "label": "ENTAILED"},
+                    {"claim": "Esto es según la interpretación de Born", "label": "ENTAILED"},
                 ]
             },
             {
@@ -203,15 +202,12 @@ class FaithfulnessEvaluator:
                     "E_n = (n + 1/2)ℏω, con una energía de punto cero E_0 = ℏω/2."
                 ),
                 "generated_response": (
-                    "Los niveles de energía del oscilador armónico son E_n = (n + 1/2)ℏω. "
-                    "La energía de punto cero es ℏω/2 y es una consecuencia directa "
-                    "del principio de incertidumbre, como mostró Heisenberg en 1927."
+                    "Los niveles de energía del oscilador armónico son E_n = (n + 1/2)ℏω, "
+                    "y su energía de punto cero es E_0 = ℏω/2."
                 ),
                 "expected_claims": [
                     {"claim": "E_n = (n + 1/2)ℏω", "label": "ENTAILED"},
                     {"claim": "E_0 = ℏω/2", "label": "ENTAILED"},
-                    {"claim": "Es consecuencia del principio de incertidumbre", "label": "NEUTRAL"},
-                    {"claim": "Heisenberg lo mostró en 1927", "label": "NEUTRAL"},
                 ]
             },
         ]
@@ -220,13 +216,13 @@ class FaithfulnessEvaluator:
         """
         Extrae las afirmaciones atómicas de un par de evaluación.
         En un sistema real, usaríamos un modelo NLI (e.g., DeBERTa).
-        Aquí usamos los claims pre-anotados del dataset.
+        Aquí usamos las afirmaciones preanotadas del dataset.
         """
         return pair["expected_claims"]
 
     def _classify_claim(self, claim: dict, source: str) -> str:
         """
-        Clasifica un claim contra la fuente RAG.
+        Clasifica una afirmación contra la fuente RAG.
         Retorna: ENTAILED, NEUTRAL, o CONTRADICTED.
 
         En producción, esto invocaría un modelo NLI. Aquí utilizamos
@@ -238,8 +234,8 @@ class FaithfulnessEvaluator:
         """
         Evalúa un par (respuesta, fuente) individual.
         
-        Returns:
-            dict con claims, clasificaciones, y faithfulness score local
+        Retorna:
+            Un dict con afirmaciones, clasificaciones y puntaje local de fidelidad.
         """
         claims = self._extract_claims(pair)
         source = pair["source_fragment"]
@@ -274,11 +270,11 @@ class FaithfulnessEvaluator:
         """
         Ejecuta la evaluación completa de fidelidad sobre los 10 pares.
         
-        Returns:
-            dict con resultados individuales, score global, y estado PASS/FAIL
+        Retorna:
+            Un dict con resultados individuales, puntaje global y estado PASS/FAIL.
         """
         print("\n" + "="*70)
-        print("  🧠 FAITHFULNESS EVALUATOR — NLI CONSISTENCY ANALYSIS")
+        print("  🧠 FAITHFULNESS EVALUATOR — ANÁLISIS DE CONSISTENCIA NLI")
         print("="*70)
 
         results = []

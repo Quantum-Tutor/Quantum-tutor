@@ -1,89 +1,191 @@
-# ⚛️ QuantumTutor v1.0
-**Arquitectura Neuro-Simbólica para la Educación en Física Cuántica**
+# Quantum Tutor Manual Operativo
 
-![Version](https://img.shields.io/badge/version-1.0-blue)
-![Architecture](https://img.shields.io/badge/architecture-Neuro--Symbolic_RAG-orange)
-![LLM](https://img.shields.io/badge/LLM-Claude_3.5_Sonnet-green)
-![Math Engine](https://img.shields.io/badge/Math_Engine-Wolfram_Alpha-red)
+Version operativa actual: `v6.1-stateless`
 
-## 📋 Tabla de Contenidos
-1. [Introducción y Visión General](#1-introducción-y-visión-general)
-2. [Arquitectura del Sistema](#2-arquitectura-del-sistema)
-3. [Metodología de Evaluación](#3-metodología-de-evaluación-protocolo-científico)
-4. [Guía de Configuración e Implementación](#4-guía-de-configuración-e-implementación)
-5. [Gestión de Riesgos y Gobernanza](#5-gestión-de-riesgos-y-gobernanza)
-6. [Escalabilidad (v2.0)](#6-escalabilidad-hacia-el-tutor-de-próxima-generación-v20)
-7. [Apéndice: Casos de Prueba Estándar](#7-apéndice-casos-de-prueba-estándar)
+## 1. Que es hoy el proyecto
 
----
+Quantum Tutor es un tutor de mecanica cuantica con estas capas activas:
 
-## 1. Introducción y Visión General
-El **QuantumTutor** no es un chatbot conversacional estándar. Es un sistema de Inteligencia Artificial híbrido y avanzado, diseñado específicamente para la enseñanza de física a nivel universitario. Para superar las limitaciones inherentes de los Modelos de Lenguaje Grande (LLMs) en matemáticas complejas, este sistema combina:
+- Orquestador stateless por request.
+- RAG multi-fuente sobre Galindo & Pascual, Cohen-Tannoudji y Sakurai.
+- Scheduler para decidir cuando usar contexto bibliografico y cuando lanzar calculo simbolico.
+- Fallback local cuando el cliente LLM no esta disponible.
+- Interfaz Streamlit y API FastAPI.
+- Soporte multimodal para analizar derivaciones subidas como imagen.
 
-* **Capacidad Lingüística:** Para ejecutar un diálogo socrático, empatizar con la frustración del estudiante y adaptar la pedagogía.
-* **Recuperación de Información (RAG):** Para garantizar el anclaje (*grounding*) estricto en el material oficial del curso (apuntes, libros de texto, papers).
-* **Razonamiento Simbólico (Wolfram Alpha):** Para garantizar una precisión matemática absoluta, delegando la resolución de integrales, derivadas y álgebra de operadores a un motor computacional determinista, erradicando así las alucinaciones numéricas.
+## 2. Contrato tecnico actual
 
-## 2. Arquitectura del Sistema
-El sistema opera bajo un flujo de **Generación Aumentada por Recuperación (RAG) con Capa de Herramientas (Tool Calling)**.
+El runtime vigente se define por estos archivos:
 
-### Componentes Core:
-* **Capa de Ingesta (`ingest.py`):** Procesa los documentos PDF de la universidad utilizando *Recursive Character Splitting* adaptado a Markdown. Esto asegura que los bloques semánticos y las fórmulas en LaTeX no se fragmenten durante la vectorización en la base de datos (Pinecone/Milvus).
-* **Orquestador de Diálogo:** El "cerebro" lingüístico impulsado por un LLM de razonamiento avanzado (como Claude 3.5 Sonnet o GPT-4o), parametrizado a través del archivo `quantum_tutor_config.json`.
-* **Motor Simbólico (`wolfram_emulator.py`):** Una integración directa vía API con Wolfram Alpha. El LLM traduce la física a Wolfram Language para resolver operaciones críticas como la normalización de funciones de onda o la evaluación de valores esperados.
+- `quantum_tutor_runtime.py`
+- `quantum_tutor_orchestrator.py`
+- `quantum_tutor_config.json`
 
-## 3. Metodología de Evaluación (Protocolo Científico)
-Para validar el sistema antes de su despliegue frente a estudiantes reales, implementamos un protocolo de evaluación riguroso denominado **"The Quantum Stress Test"**.
+Si alguno de esos archivos contradice documentos mas antiguos, el runtime actual tiene prioridad.
 
-### Dimensiones de Calidad:
-* **Fidelidad (Faithfulness):** Medida por la métrica de Hechos Verificados sobre Hechos Totales, asegurando que el LLM no invente conceptos fuera del material de estudio.
-* **Precisión Simbólica:** Evaluación del *Code Success Rate* (CSR); la capacidad del LLM para generar código de Wolfram válido y comparar sus resultados con el *Ground Truth* algebraico.
-* **Eficacia Socrática:** Medición del ratio de retención del estudiante en la conversación. El modelo se evalúa positivamente si logra que el alumno deduzca la respuesta en lugar de entregarle la solución terminada.
+## 3. Flujo principal
 
-## 4. Guía de Configuración e Implementación
+1. Se crea un `QuantumRequestContext` por consulta.
+2. El orquestador detecta intento, tema y plan de ejecucion.
+3. Se ejecuta RAG, y Wolfram puede correr en paralelo si el scheduler lo decide.
+4. Antes de tocar el proveedor, el runtime intenta responder por via deterministica o con contenido precomputado para consultas comunes.
+5. Si hay cliente LLM disponible y la consulta sigue requiriendo generacion, se hace streaming de respuesta.
+6. Si no hay cliente LLM, o si la cuota temporal se agota, el sistema responde con fallback local usando contexto recuperado y, si existe, resultado simbolico.
+7. Se devuelve metadata consistente con latencia, imagenes, tema, cache, routeo y uso de Wolfram.
 
-### Estructura de Archivos en el Entorno (`/scratch`)
-* `system_prompt.md`: Define la personalidad socrática, las reglas de interacción, el uso obligatorio de LaTeX para matemáticas y las restricciones operativas.
-* `quantum_tutor_config.json`: Archivo de orquestación que define parámetros como la temperatura (fijada en 0.2 para mayor determinismo), los modelos de embeddings y los umbrales de similitud del RAG.
-* `wolfram_emulator.py`: Simulador local para realizar pruebas de integración y validar las llamadas a funciones matemáticas (*Tool Calling*).
-* `init_quantum_tutor.py`: El script principal de arranque que inicializa los agentes y conecta la base de datos vectorial con el LLM.
-* `ingest.py`: Script para cargar los contenidos del curso a la Vector DB.
+## 4. Entradas importantes del repo
 
-### Ingeniería de Prompts
-El sistema utiliza técnicas de **Few-Shot Prompting** y **Chain-of-Thought (CoT)**. Ante cada consulta, el flujo interno de razonamiento exige:
-1. Identificar las variables conocidas e incógnitas del problema.
-2. Recuperar la teoría aplicable desde el RAG.
-3. Traducir la operación a código de Wolfram (si requiere cálculo).
-4. Formular una pregunta guía socrática para el estudiante.
+- `app_quantum_tutor.py`: UI Streamlit.
+- `api_quantum_tutor.py`: API HTTP.
+- `rag_engine.py`: indexacion y busqueda.
+- `multimodal_vision_parser.py`: vision.
+- `tool_scheduler.py`: politica de herramientas.
+- `adaptive_learning_engine.py`: mapa curricular, diagnostico, ruta personalizada, milestones y badges.
+- `learning_content.py`: generadores deterministas de ejercicios y micro-lecciones.
+- `tests`: hoy se expresan como archivos `test_*.py` ejecutables por `pytest`.
 
-## 5. Gestión de Riesgos y Gobernanza
+## 4.1 Capa de aprendizaje guiado
 
-| Riesgo Detectado | Mecanismo de Mitigación Implementado |
-| :--- | :--- |
-| **Alucinación Matemática** | Desvío obligatorio de cálculos complejos a Wolfram Alpha mediante *Tool Enforcing*. |
-| **Atajo Cognitivo** | Protocolo Socrático: El sistema tiene prohibido algorítmicamente dar la respuesta final numérica o algebraica en el primer turno de interacción. |
-| **Privacidad de Datos** | Rutinas de anonimización (eliminación de PII) antes de enviar las consultas a APIs externas (LLM y Wolfram). |
-| **Sesgo Interpretativo** | Configuración de neutralidad teórica estricta (explicar diferentes modelos sin favorecer ninguno a menos que aplique al currículo). |
+- Endpoints nuevos:
+  - `GET /api/diagnostico-inicial`
+  - `POST /api/evaluar-respuesta`
+  - `GET /api/ruta-personalizada`
+  - `POST /api/guardar-progreso`
+  - `GET /api/curriculum`
+  - `GET /api/learning-kpis`
+  - `GET /api/learning-review-queue`
+  - `GET /api/learning-insights`
+  - `POST /api/guardar-evaluacion`
+  - `GET /api/learning-cohort-report`
+  - `POST /api/learning-cohort-export`
+- Estado persistente:
+  - `outputs/state/learning_curriculum.json`
+  - `outputs/state/learning_progress.json`
+  - `outputs/state/learning_diagnostics.json`
+  - `outputs/state/learning_gamification.json`
+- Scripts auxiliares:
+  - `python scripts/generar_ejercicios.py --tema efecto_tunel --dificultad medium --count 3`
+  - `python scripts/generar_leccion.py --node-id qm_ecuacion_schrodinger`
+- Diseno de referencia: `adaptive_learning_blueprint.md`
+- Streamlit ya expone una pestana `Learning Journey` para ejecutar diagnostico, ver ruta, mastery, reviews espaciados, misconceptions, milestones, badges y guardar progreso.
+- Las interacciones del chat ahora suman senales de progreso suaves sobre nodos mapeados, sin marcar completitud automatica.
+- El dashboard analitico ahora muestra KPIs de aprendizaje: pretest, posttest, mejora, finalizacion, progreso por nodo, persona, dificultad adaptativa, repasos vencidos, misconceptions y eventos derivados del chat.
+- El engine asigna una variante A/B estable de gamificacion por estudiante (`control` o `challenge`) para analitica experimental.
+- Los exportes de cohorte quedan en `outputs/reports/learning_cohort_report.json` y `outputs/reports/learning_cohort_students.csv`.
+- La consola `static_web` ya muestra nivel, puntos, siguiente nodo y permite lanzar el diagnostico inicial desde el cliente web.
+- La progresion ahora exige `mastery >= 0.85`, usa prerrequisitos reales del knowledge graph y programa `next_review_at`, `retention_score` y `review_count` por nodo.
+- La nueva capa `learning insights` agrega cohortes multidimensionales por persona, misconception dominante, modulo y variante A/B, junto con learning gain, time-to-mastery, retention, error reduction y misconception resolution.
+- El engine puede aplicar ajustes automaticos de andamiaje, dificultad y remediacion cuando una cohorte queda por debajo de los umbrales de efectividad.
+- Streamlit expone ahora una pestana `Admin Dashboard` para roles `admin` y `professor`, con readiness experimental, semaforos pedagogicos, top misconceptions por modulo, comparacion A/B, cohortes criticas y recomendaciones interpretables.
 
-## 6. Escalabilidad: Hacia el Tutor de Próxima Generación (v2.0)
-Diseñado con una arquitectura modular, el sistema está preparado para integrar futuras capacidades:
-* **Multimodalidad Avanzada:** Capacidad de procesar imágenes de los cuadernos de los alumnos mediante visión computacional y OCR especializado en fórmulas matemáticas, para detectar errores exactos en derivaciones manuales.
-* **Razonamiento Simbólico Local:** Sustitución de la API en la nube por librerías locales de Python como SymPy en un entorno *sandbox*, reduciendo la latencia y la dependencia de servicios externos.
-* **Analítica del Aprendizaje (Dashboard):** Un panel de control para el profesorado que, mediante *clustering* temático, identifique qué conceptos específicos (ej. espín, efecto túnel) están generando la mayor tasa de error o consultas en el grupo.
+## 5. Ejecucion local
 
-## 7. Apéndice: Casos de Prueba Estándar
+## 5.1 Sistema API keys Gemini
 
-### Caso A: Normalización de Función de Onda
-* **Input del Alumno:** "¿Cómo normalizo una función de onda?"
-* **Acción del Sistema:**
-  1. Recupera del RAG la definición: la integral de la densidad de probabilidad debe ser la unidad.
-  2. Explica el concepto físico detrás de la constante de normalización.
-  3. **Salida Socrática:** "Para aplicar esto, ¿qué función de onda específica tienes en tu problema para que planteemos juntos los límites de integración?"
+- El runtime acepta `GEMINI_API_KEYS` con multiples claves separadas por coma.
+- Si solo existe una credencial, tambien funciona `GEMINI_API_KEY`.
+- El orquestador verifica salud al arranque, aplica cooldown al nodo que cae en `429/RESOURCE_EXHAUSTED` y rota al siguiente nodo disponible.
+- Antes de llamar a Gemini, se aplica token bucket por usuario y se intentan respuestas precomputadas / simbolicas locales.
+- La UI Streamlit y la consola web exponen el tiempo estimado del proximo reintento cuando hay cuota agotada, cooldown o backpressure.
+- Antes de levantar entornos compartidos, conviene correr `python verify_api_keys.py`.
 
-### Caso B: El Pozo de Potencial Infinito (Error de Intuición)
-* **Input del Alumno:** "Calculé la probabilidad para n=2 en el centro del pozo y me da 0.5, pero creo que está mal."
-* **Acción del Sistema:**
-  1. El LLM deduce internamente la función correspondiente al nivel cuántico indicado.
-  2. Llama a Wolfram Alpha para calcular la integral exacta en el intervalo central.
-  3. Confirma que el resultado matemático del alumno (0.5) es correcto.
-  4. **Salida Socrática:** Explica la existencia de un nodo en el centro para el primer estado excitado y guía al alumno a entender por qué su cálculo es correcto a pesar de contradecir su intuición clásica.
+## 5.2 Bootstrap de autenticacion
+
+- En despliegues nuevos, el admin inicial debe provisionarse con `QT_BOOTSTRAP_ADMIN_EMAIL` y `QT_BOOTSTRAP_ADMIN_PASSWORD`.
+- El admin hardcodeado historico ya no se crea por defecto; solo puede reactivarse con `QT_ALLOW_INSECURE_DEFAULT_ADMIN=true` para dev local.
+- Las sesiones de login ya no se restauran desde query params.
+
+## 5.3 CORS de la API
+
+- La API usa `QUANTUM_TUTOR_CORS_ORIGINS` para definir orígenes permitidos.
+- Si se usa `*`, FastAPI desactiva credenciales CORS deliberadamente.
+
+## 5.4 Seguridad de borde de la API
+
+- `/api/chat` y `/api/vision` aplican un token bucket de borde antes de tocar el core del tutor.
+- Los headers `X-Forwarded-For`, `X-Real-IP` y `X-User-Id` no se confian por defecto.
+- Para aceptar identidad desde un reverse proxy, habilitar `QT_TRUST_PROXY_HEADERS=true` y definir `QT_TRUSTED_PROXY_RANGES`.
+- La identidad autenticada para rate limit debe llegar por `X-Authenticated-User` desde un proxy confiable.
+- Los claims directos `user_id` quedan deshabilitados por defecto y solo deben activarse en entornos controlados.
+- El abuso repetido de la API ahora acumula score y puede activar un bloqueo temporal con `403` y `Retry-After`.
+- Los uploads de vision ahora validan tamano, MIME type y extension antes de parsear la imagen.
+- Estado persistente de esta capa: `outputs/state/api_edge_rate_limits.json`.
+- Eventos persistentes: `outputs/logs/security_events.jsonl`.
+
+## 5.5 Circuit breaker del proveedor
+
+- El runtime ahora aplica circuit breaker antes de entrar al camino costoso de Gemini.
+- Fallos transitorios repetidos (`RATE_LIMIT`, `TIMEOUT`, `UNAVAILABLE`) abren el breaker y fuerzan fallback local temporal.
+- La UI puede reflejar este estado como `CIRCUIT_BREAKER_LOCAL` mientras dure la ventana de recuperacion.
+- Estado persistente: `outputs/state/provider_circuit_breakers.json`.
+
+## 5.6 Review admin y gateway
+
+- La consola `Admin Security Review` en Streamlit permite revisar eventos, ver identidades bloqueadas y resetear circuit breakers manualmente.
+- Los desbloqueos manuales y resets quedan auditados en `outputs/logs/security_events.jsonl`.
+- Si la UI no esta disponible, existe soporte CLI:
+  - `python security_admin.py events --limit 50`
+  - `python security_admin.py abuse-list`
+  - `python security_admin.py abuse-unblock <identity>`
+  - `python security_admin.py breaker-list`
+  - `python security_admin.py breaker-reset gemini_text`
+- Para despliegue real con reverse proxy, usar `deployment/nginx/quantum_tutor.conf` y `deployment/cloudflare/cloudflared-config.yml.example`.
+- Topologia recomendada: `Cliente -> Cloudflare Edge -> cloudflared -> Nginx -> FastAPI + Streamlit`.
+- Hostnames de produccion previstos: `quantumtutor.cl`, `api.quantumtutor.cl` y `admin.quantumtutor.cl`.
+- La consola `Admin Security Review` solo se expone en `admin.quantumtutor.cl`.
+- En produccion, mantener `QT_ALLOW_ADMIN_REVIEW_ANY_HOST=false`.
+- Plantilla de entorno productivo: `deployment/env/quantum_tutor.env.example`.
+- Servicios de sistema: `deployment/systemd/`.
+- Smoke check de borde: `python deployment/scripts/smoke_check.py --ui-url https://quantumtutor.cl --api-url https://api.quantumtutor.cl`.
+
+App Streamlit:
+
+```powershell
+streamlit run app_quantum_tutor.py
+```
+
+API:
+
+```powershell
+uvicorn api_quantum_tutor:app --reload
+```
+
+Suite:
+
+```powershell
+python -m pytest -q
+```
+
+## 6. Estado de pruebas
+
+La suite rapida del repo esta pensada para ser determinista y no depender de PDF reales ni de llamadas externas para el ciclo diario de desarrollo.
+
+Objetivo operativo:
+
+- `pytest -q` debe seguir verde.
+- Los tests no deben depender de nombres de version historicos.
+- Los scripts de exploracion o artefactos viejos no deben contaminar la suite rapida.
+
+## 7. Documentos historicos
+
+Estos archivos se conservan como referencia de diseno, no como especificacion vigente:
+
+- `legacy/docs/QuantumTutor_v1.2_Especificacion.md`
+- `legacy/docs/Roadmap_v2.0.md`
+- `legacy/docs/conversacion_completa.md`
+
+## 8. Artefactos generados
+
+Los reportes y snapshots activos viven en `outputs/`. No son documentacion fuente, sino resultados generados o snapshots auxiliares.
+
+Estado local vigente del runtime:
+
+- `outputs/state/`: autenticacion, estado de rate limit y perfil cognitivo.
+- `outputs/cache/`: cache semantica e indice RAG serializado.
+- `outputs/logs/`: log principal del orquestador y crash dumps de API.
+
+## 9. Mantenimiento recomendado
+
+- Mantener las versiones visibles alineadas con `quantum_tutor_runtime.py`.
+- Evitar duplicar logica de metadata o resolucion de tareas en el orquestador.
+- Tratar `static`, `static_web`, reportes y dashboards antiguos como artefactos que pueden quedar desfasados si no se actualizan junto al runtime.

@@ -1,5 +1,5 @@
 """
-WolframAlphaEmulator v2.0 — Motor Simbólico para el Quantum Stress Test
+WolframAlphaEmulator v6.1 - Motor simbólico para el Quantum Stress Test
 ========================================================================
 Emula las respuestas del motor Wolfram Alpha para los 5 problemas
 del dataset de evaluación (Q-01..Q-05), con capacidad de auto-validación.
@@ -20,7 +20,8 @@ class WolframAlphaEmulator:
     y capacidad de validación automática contra ground truth.
     """
 
-    def __init__(self):
+    def __init__(self, app_id: str = ""):
+        self.app_id = app_id
         # ── Base de conocimiento expandida (Q-01 a Q-05) ──────────────
         self.knowledge_base = {
             # Q-01: Normalización de Ψ(x) = A·e^(-|x|/b)
@@ -54,6 +55,14 @@ class WolframAlphaEmulator:
                 "latex": r"[\hat{x}^2, \hat{p}] = 2i\hbar\hat{x}",
                 "category": "commutator",
                 "problem_id": "Q-03"
+            },
+            # Auxiliar: integral exponencial simple
+            "Integrate[Exp[-x], {x, 0, Infinity}]": {
+                "result": "1",
+                "numeric": 1.0,
+                "latex": r"\int_{0}^{\infty} e^{-x}\,dx = 1",
+                "category": "integral",
+                "problem_id": "AUX-02"
             },
             # Q-04: Efecto Túnel — Barrera 10 eV, partícula 8 eV, ancho 1 nm
             "TunnelTransmission[V0=10eV, E=8eV, a=1nm, m=m_e]": {
@@ -93,6 +102,19 @@ class WolframAlphaEmulator:
         # ── Registro de consultas para auditoría ──────────────────────
         self.query_log = []
 
+    def _normalize_natural_language_query(self, query: str) -> str:
+        normalized_lower = query.lower()
+
+        if (
+            "integral" in normalized_lower
+            and ("e^-x" in normalized_lower or "exp(-x)" in normalized_lower or "e^{-x}" in normalized_lower)
+            and "0" in normalized_lower
+            and ("infinito" in normalized_lower or "infinity" in normalized_lower)
+        ):
+            return "Integrate[Exp[-x], {x, 0, Infinity}]"
+
+        return query
+
     def query(self, wl_code: str) -> dict:
         """
         Ejecuta una consulta en Wolfram Language (emulada).
@@ -103,7 +125,7 @@ class WolframAlphaEmulator:
         Returns:
             dict con status, input, result_symbolic, result_numeric, latex, plot_url
         """
-        normalized = wl_code.strip()
+        normalized = self._normalize_natural_language_query(wl_code.strip())
         entry = self.knowledge_base.get(normalized)
 
         log_entry = {

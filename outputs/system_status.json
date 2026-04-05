@@ -1,0 +1,35 @@
+{
+  "agent": "QuantumTutor_Stateless",
+  "version": "v6.1-stateless",
+  "model": "gemini-2.0-flash",
+  "temperature": 0.2,
+  "health_status": {
+    "timestamp": "2026-03-17T20:55:00.000000",
+    "checks": {
+      "symbolic_engine": true,
+      "rag_integrity": true,
+      "material_coverage": true,
+      "tool_enforcing": true
+    },
+    "all_passed": true,
+    "passed": 4,
+    "total": 4
+  },
+  "rag_stats": {
+    "total_chunks": 7,
+    "total_chars": 9501,
+    "chunks_with_equations": 6,
+    "total_queries": 4,
+    "sections": [
+      "Seccion 0",
+      "Capítulo 1: Fundamentos de la Mecánica Cuántica",
+      "Capítulo 2: La Ecuación de Schrödinger",
+      "Capítulo 3: Operadores y Conmutadores",
+      "Capítulo 4: El Oscilador Armónico Cuántico",
+      "Capítulo 5: Efecto Túnel",
+      "Capítulo 6: Problemas Resueltos"
+    ]
+  },
+  "session_interactions": 3,
+  "wolfram_queries": 4
+}

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+    <rect width="512" height="512" fill="#0E1117"/>
+    <circle cx="256" cy="256" r="200" fill="none" stroke="#D4AF37" stroke-width="15"/>
+    <circle cx="256" cy="256" r="40" fill="#D4AF37"/>
+    <!-- Atom paths -->
+    <ellipse cx="256" cy="256" rx="180" ry="60" fill="none" stroke="#D4AF37" stroke-width="12" transform="rotate(30 256 256)"/>
+    <ellipse cx="256" cy="256" rx="180" ry="60" fill="none" stroke="#D4AF37" stroke-width="12" transform="rotate(-30 256 256)"/>
+    <ellipse cx="256" cy="256" rx="180" ry="60" fill="none" stroke="#D4AF37" stroke-width="12" transform="rotate(90 256 256)"/>
+</svg>

@@ -1,0 +1,11 @@
+{
+  "identities": {
+    "ip:testclient": {
+      "score": 0.0,
+      "updated_at": 1775411505.6457,
+      "block_until": 0.0,
+      "last_reason": "",
+      "block_count": 0
+    }
+  }
+}

@@ -1,0 +1,27 @@
+[Unit]
+Description=Quantum Tutor Streamlit UI
+After=network-online.target quantum-tutor-api.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=quantum
+Group=www-data
+WorkingDirectory=/opt/quantum_tutor/current
+EnvironmentFile=/etc/quantum-tutor/quantum_tutor.env
+Environment=HOME=/opt/quantum_tutor/current/outputs/state/runtime_home
+Environment=HF_HOME=/opt/quantum_tutor/current/outputs/cache/hf
+Environment=TORCH_HOME=/opt/quantum_tutor/current/outputs/cache/torch
+Environment=STREAMLIT_BROWSER_GATHER_USAGE_STATS=false
+ExecStartPre=/usr/bin/mkdir -p /opt/quantum_tutor/current/outputs/state/runtime_home /opt/quantum_tutor/current/outputs/cache/hf /opt/quantum_tutor/current/outputs/cache/torch
+ExecStart=/opt/quantum_tutor/venv/bin/python -m streamlit run app_quantum_tutor.py --server.address=127.0.0.1 --server.port=8501 --server.headless=true
+Restart=always
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ReadWritePaths=/opt/quantum_tutor/current/outputs
+LimitNOFILE=65535
+
+[Install]
+WantedBy=multi-user.target

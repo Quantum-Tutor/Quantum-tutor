@@ -21,6 +21,7 @@ from datetime import datetime
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from wolfram_emulator import WolframAlphaEmulator
 from ingest import DocumentIngestionPipeline
+from quantum_tutor_paths import CASE_B_REPORT_PATH, ensure_output_dirs
 
 
 def run_case_b_simulation():
@@ -250,10 +251,11 @@ def run_case_b_simulation():
         "overall_status": "PASS"
     }
 
-    with open("case_b_simulation_results.json", "w", encoding="utf-8") as f:
+    ensure_output_dirs()
+    with open(CASE_B_REPORT_PATH, "w", encoding="utf-8") as f:
         json.dump(simulation_report, f, indent=2, ensure_ascii=False)
 
-    print(f"\n  Reporte guardado en: case_b_simulation_results.json\n")
+    print(f"\n  Reporte guardado en: {CASE_B_REPORT_PATH}\n")
 
     return simulation_report
 

@@ -1,0 +1,145 @@
+{
+  "browser": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+  "chat_submit_method": "button-click",
+  "dom_debug": {
+    "buttons": [
+      {
+        "text": "",
+        "aria": "",
+        "testid": "stBaseButton-headerNoPadding"
+      },
+      {
+        "text": "📝 Nuevo chat",
+        "aria": "",
+        "testid": "stBaseButton-secondary"
+      },
+      {
+        "text": "🔍 Buscar chats",
+        "aria": "",
+        "testid": "stBaseButton-secondary"
+      },
+      {
+        "text": "🖼️ Imágenes",
+        "aria": "",
+        "testid": "stBaseButton-secondary"
+      },
+      {
+        "text": "⊞ Aplicaciones",
+        "aria": "",
+        "testid": "stBaseButton-secondary"
+      },
+      {
+        "text": "🔭 Investigación avanzada",
+        "aria": "",
+        "testid": "stBaseButton-secondary"
+      },
+      {
+        "text": "⌨️ Codex",
+        "aria": "",
+        "testid": "stBaseButton-secondary"
+      },
+      {
+        "text": "👥 Iniciar un chat de grupo",
+        "aria": "",
+        "testid": "stBaseButton-secondary"
+      },
+      {
+        "text": "🔄 Nueva Sesión",
+        "aria": "",
+        "testid": "stBaseButton-secondary"
+      },
+      {
+        "text": "🚪 Cerrar Sesión",
+        "aria": "",
+        "testid": "stBaseButton-secondary"
+      },
+      {
+        "text": "",
+        "aria": "",
+        "testid": "stBaseButton-secondary"
+      },
+      {
+        "text": "Deploy",
+        "aria": "",
+        "testid": "stBaseButton-header"
+      },
+      {
+        "text": "",
+        "aria": "Main menu",
+        "testid": "stMainMenuButton"
+      },
+      {
+        "text": "✨ Interfaz de Sesión Cuántica",
+        "aria": null,
+        "testid": "stTab"
+      },
+      {
+        "text": "📊 Dashboard Analítico Cognitivo",
+        "aria": null,
+        "testid": "stTab"
+      },
+      {
+        "text": "",
+        "aria": "Show/hide columns",
+        "testid": "stBaseButton-elementToolbar"
+      },
+      {
+        "text": "",
+        "aria": "Download as CSV",
+        "testid": "stBaseButton-elementToolbar"
+      },
+      {
+        "text": "",
+        "aria": "Search",
+        "testid": "stBaseButton-elementToolbar"
+      },
+      {
+        "text": "",
+        "aria": "Fullscreen",
+        "testid": "stBaseButton-elementToolbar"
+      },
+      {
+        "text": "",
+        "aria": "Record",
+        "testid": "stAudioInputActionButton"
+      },
+      {
+        "text": "",
+        "aria": "Upload a file",
+        "testid": null
+      },
+      {
+        "text": "",
+        "aria": "Send message",
+        "testid": "stChatInputSubmitButton"
+      },
+      {
+        "text": "↑",
+        "aria": "Ir al inicio",
+        "testid": null
+      },
+      {
+        "text": "↓",
+        "aria": "Ir al final",
+        "testid": null
+      }
+    ],
+    "textareas": [
+      {
+        "placeholder": "Ej: ¿Cómo se comporta la probabilidad en el centro de un pozo infinito para n=2?",
+        "aria": "Ej: ¿Cómo se comporta la probabilidad en el centro de un pozo infinito para n=2?",
+        "testid": "stChatInputTextArea"
+      }
+    ],
+    "tabs": [
+      "✨ Interfaz de Sesión Cuántica",
+      "📊 Dashboard Analítico Cognitivo"
+    ]
+  },
+  "assistant_messages": [
+    "face\n\nHola",
+    "✨\n\nHola. Estoy disponible para trabajar mecánica cuántica contigo. Si quieres, planteamos el problema paso a paso.\n\nRespuesta parcial detectada: modo degradado sin evidencia suficiente"
+  ],
+  "body_excerpt": "Quantum Tutor System\n\nEntorno Profesional\n\n📝 Nuevo chat\n\n🔍 Buscar chats\n\n🔬 Modelo Cognitivo\n\nGeneral (Rápido)\nHerramientas\n\n🖼️ Imágenes\n\n⊞ Aplicaciones\n\n🔭 Investigación avanzada\n\n⌨️ Codex\n\nTus chats\n• Mecánica Cuántica PDF\n• Base bibliográfica conmutadores\n• Prueba manual de app\n• Personalización maestra GEM\n• Consulta en LaTeX Cuántica\n• Personalización IA CV\n\n👥 Iniciar un chat de grupo\n\nUSUARIO ACTIVO\nAdministrador del Sistema\n🛡️ Admin\n0\nW-CALLS\n0\nRAG-ANCHORS\n🔑 API Key Health\n\n⚠️ Nodo 0: AIzaSy...41M — ERROR\n\n⚠️ Nodo 1: AIzaSy...KCA — ERROR\n\n⚠️ Nodo 2: AIzaSy...gII — ERROR\n\n⚠️ Nodo 3: AIzaSy...KVQ — ERROR\n\n⚠️ Nodo 4: AIzaSy...YW4 — ERROR\n\n⚠️ Nodo 5: AIzaSy...Khk — ERROR\n\n🧠 Learning Analytics\n\nAnalítica en observación: la última respuesta fue parcial o degradada.\n\nDominado: Oscilador Armónico, Pozo Infinito, Conmutadores, Espacio de Hilbert, Ec. Schrödinger\n\nPUNTOS DE DOLOR\n\n• General\n\n🔄 Nueva Sesión\n\n🚪 Cerrar Sesión\n\nkeyboard_arrow_right\n\n🛡️ Admin Console\n\nDeploy\n\nQuantum Tutor | Runtime actual: v6.1-stateless\n\n⚛️ Quantum Tutor Avanzado\n\nAdvanced Quantum Intelligence System | Galindo & Pascual • Cohen-Tannoudji • J.J. Sakurai | Entorno Profesional\n\nModo local de contingencia activo. Las respuestas pueden llegar sin cálculo simbólico o sin referencias visuales sólidas.\n\n✨ Interfaz de Sesión Cuántica\n\n📊 Dashboard Analítico Cognitivo\n\n🧠 Perfil de Comprensión Cuántica\nNIVEL DE ANDAMIAJE\nInicial\n\nPunto de partida\n\nCONVERGENCIA RELACIONAL\n0.0%\nRIGOR CIENTÍFICO\nMULTI-AUTHOR\n\nValidado contra Galindo, Cohen, Sakurai\n\n🔥 Mapa de Esfuerzo por Concepto\n🛠️ Anomalías Detectadas\n\nAnomalía: General\n\n✅ Terrenos Dominados\n\nSólido en: Oscilador Armónico\n\nSólido en: Pozo Infinito\n\nSólido en: Conmutadores\n\nSólido en: Espacio de Hilbert\n\nSólido en: Ec. Schrödinger\n\nkeyboard_arrow_right\n\n🎙️ Entrada de voz\n\n↑\n↓",
+  "status": "ok"
+}

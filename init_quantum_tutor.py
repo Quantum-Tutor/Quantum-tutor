@@ -27,7 +27,7 @@ def initialize_agent():
     print(f"   Score mínimo de Faithfulness: {config['safety_and_governance']['min_faithfulness_score']}")
     
     print("\n✅ QuantumTutor está listo para la simulación.")
-    print("Puedes usar 'simulation.md' para ejecutar el caso de prueba: El Caso del Pozo Infinito.")
+    print("Puedes usar 'legacy/docs/simulation.md' para ejecutar el caso de prueba: El Caso del Pozo Infinito.")
 
 if __name__ == "__main__":
     initialize_agent()

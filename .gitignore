@@ -24,8 +24,16 @@ wheels/
 # Secrets & Config
 .env
 student_profile.json
+users.json
+sessions.json
+rate_limits.json
 *.log
 ocr_batch_checkpoint.json
+outputs/checkpoints/ocr_batch_checkpoint.json
+outputs/state/
+outputs/cache/
+outputs/logs/
+outputs/archive/
 
 # Large Assets
 books/

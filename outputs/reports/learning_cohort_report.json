@@ -1,0 +1,213 @@
+{
+  "generated_at": 1775411536.8135324,
+  "experiment_name": "gamification_v1",
+  "experiment_status": {
+    "experiment_name": "gamification_v1",
+    "start_at": 1775411536.7644887,
+    "end_at": 1776621136.7644887,
+    "metric": "learning_gain",
+    "min_sample": 100,
+    "sample_size": 1,
+    "window_days": 14,
+    "sample_ready": false,
+    "window_complete": false,
+    "evaluation_ready": false,
+    "seconds_until_ready": 1209599.951
+  },
+  "summary": {
+    "student_count": 1,
+    "diagnostic_completed_rate": 0.0,
+    "average_completion_rate": 0.083,
+    "average_overall_mastery": 0.39,
+    "average_improvement": null,
+    "average_due_reviews": 0.0,
+    "average_retention_score": 0.9
+  },
+  "variants": [
+    {
+      "variant": "control",
+      "student_count": 1,
+      "diagnostic_completed_rate": 0.0,
+      "average_completion_rate": 0.083,
+      "average_improvement": null
+    }
+  ],
+  "target_levels": [
+    {
+      "target_level": "beginner",
+      "student_count": 1,
+      "average_completion_rate": 0.083,
+      "average_overall_mastery": 0.39
+    }
+  ],
+  "module_comparison": [
+    {
+      "node_id": "qm_principios_basicos",
+      "title": "Principios Basicos",
+      "level": "beginner",
+      "skill": "foundations",
+      "started_count": 1,
+      "completed_count": 1,
+      "completion_rate": 1.0,
+      "average_mastery": 0.9,
+      "variant_counts": {
+        "control": 1
+      }
+    },
+    {
+      "node_id": "qm_computacion_cuantica",
+      "title": "Computacion Cuantica Inicial",
+      "level": "advanced",
+      "skill": "applications",
+      "started_count": 0,
+      "completed_count": 0,
+      "completion_rate": 0.0,
+      "average_mastery": 0.0,
+      "variant_counts": {}
+    },
+    {
+      "node_id": "qm_entrelazamiento",
+      "title": "Entrelazamiento",
+      "level": "advanced",
+      "skill": "applications",
+      "started_count": 0,
+      "completed_count": 0,
+      "completion_rate": 0.0,
+      "average_mastery": 0.0,
+      "variant_counts": {}
+    },
+    {
+      "node_id": "qm_atomos_electrones",
+      "title": "Atomos y Electrones",
+      "level": "beginner",
+      "skill": "foundations",
+      "started_count": 0,
+      "completed_count": 0,
+      "completion_rate": 0.0,
+      "average_mastery": 0.0,
+      "variant_counts": {}
+    },
+    {
+      "node_id": "math_derivatives",
+      "title": "Derivadas para Quantum",
+      "level": "beginner",
+      "skill": "mathematical_foundations",
+      "started_count": 0,
+      "completed_count": 0,
+      "completion_rate": 0.0,
+      "average_mastery": 0.0,
+      "variant_counts": {}
+    },
+    {
+      "node_id": "math_functions",
+      "title": "Funciones y Graficas",
+      "level": "beginner",
+      "skill": "mathematical_foundations",
+      "started_count": 0,
+      "completed_count": 0,
+      "completion_rate": 0.0,
+      "average_mastery": 0.0,
+      "variant_counts": {}
+    },
+    {
+      "node_id": "math_complex_numbers",
+      "title": "Numeros Complejos",
+      "level": "beginner",
+      "skill": "mathematical_foundations",
+      "started_count": 0,
+      "completed_count": 0,
+      "completion_rate": 0.0,
+      "average_mastery": 0.0,
+      "variant_counts": {}
+    },
+    {
+      "node_id": "qm_onda_funcion_onda",
+      "title": "Onda y Funcion de Onda",
+      "level": "beginner",
+      "skill": "foundations",
+      "started_count": 0,
+      "completed_count": 0,
+      "completion_rate": 0.0,
+      "average_mastery": 0.0,
+      "variant_counts": {}
+    },
+    {
+      "node_id": "qm_ecuacion_schrodinger",
+      "title": "Ecuacion de Schroedinger",
+      "level": "intermediate",
+      "skill": "mathematical_formalism",
+      "started_count": 0,
+      "completed_count": 0,
+      "completion_rate": 0.0,
+      "average_mastery": 0.0,
+      "variant_counts": {}
+    },
+    {
+      "node_id": "qm_efecto_tunel",
+      "title": "Efecto Tunel",
+      "level": "intermediate",
+      "skill": "measurement",
+      "started_count": 0,
+      "completed_count": 0,
+      "completion_rate": 0.0,
+      "average_mastery": 0.0,
+      "variant_counts": {}
+    },
+    {
+      "node_id": "qm_medicion_cuantica",
+      "title": "Medicion Cuantica",
+      "level": "intermediate",
+      "skill": "measurement",
+      "started_count": 0,
+      "completed_count": 0,
+      "completion_rate": 0.0,
+      "average_mastery": 0.0,
+      "variant_counts": {}
+    },
+    {
+      "node_id": "qm_superposicion_operadores",
+      "title": "Superposicion y Operadores",
+      "level": "intermediate",
+      "skill": "mathematical_formalism",
+      "started_count": 0,
+      "completed_count": 0,
+      "completion_rate": 0.0,
+      "average_mastery": 0.0,
+      "variant_counts": {}
+    }
+  ],
+  "learning_cohorts": {
+    "intermediate|none|math_functions|control": [
+      "ip:testclient|ua:846488f1dc5c"
+    ]
+  },
+  "students": [
+    {
+      "student_id": "ip:testclient|ua:846488f1dc5c",
+      "cohort_key": "intermediate|none|math_functions|control",
+      "target_level": "beginner",
+      "current_level": "beginner",
+      "persona": "intermediate",
+      "dominant_misconception": "none",
+      "module_id": "math_functions",
+      "module_title": "Funciones y Graficas",
+      "diagnostic_completed": false,
+      "pretest_score": null,
+      "posttest_score": null,
+      "improvement": null,
+      "completion_rate": 0.083,
+      "overall_mastery": 0.39,
+      "due_review_count": 0,
+      "recommended_difficulty": "medium",
+      "average_retention_score": 0.9,
+      "average_time_to_mastery_seconds": null,
+      "error_reduction_rate": null,
+      "misconception_resolution_rate": null,
+      "points": 20,
+      "badges": 0,
+      "milestones_unlocked": 0,
+      "experiment_variant": "control",
+      "chat_learning_events": 0
+    }
+  ]
+}

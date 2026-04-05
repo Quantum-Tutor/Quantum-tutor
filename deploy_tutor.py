@@ -6,6 +6,7 @@ import sys
 import threading
 import os
 import urllib.request
+from quantum_tutor_runtime import APP_NAME, DISPLAY_VERSION, RUNTIME_VERSION
 
 def run_streamlit():
     """Ejecuta Streamlit en un hilo separado."""
@@ -19,7 +20,7 @@ def run_streamlit():
     )
 
 def deploy_and_generate_qr():
-    print("[*] Iniciando QuantumTutor v2.0...")
+    print(f"[*] Iniciando {APP_NAME} {RUNTIME_VERSION}...")
     
     # Levantar Streamlit
     threading.Thread(target=run_streamlit, daemon=True).start()
@@ -85,13 +86,13 @@ def deploy_and_generate_qr():
     
     print(f"[SUCCESS] Código QR guardado en: {os.path.abspath(img_path)}")
     print("\n" + "="*70)
-    print("ACCESO MÓVIL (QuantumTutor v2.0)")
+    print(f"ACCESO MÓVIL ({APP_NAME} {DISPLAY_VERSION})")
     print("="*70)
     print("1. Abre tu teléfono móvil (o escanea desde la pantalla).")
     print(f"2. Escanea {img_path} o ingresa a:")
-    print(f"   ►►►  {public_url}  ◄◄◄")
-    print("3. Pasa la barrera de autenticación de Google.")
-    print("4. Manten esta ventana abierta para no caiga el servidor.")
+    print(f"   >>>  {public_url}  <<<")
+    print("3. Pasa la barrera de autenticación si aplica.")
+    print("4. Mantén esta ventana abierta para que no caiga el servidor.")
     print("="*70 + "\n")
     
     # Mantener el script vivo para mantener el túnel

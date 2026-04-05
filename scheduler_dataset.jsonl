@@ -1,0 +1,2 @@
+{"session_id": "sess_meta", "delta": 0.0, "wolfram_score": 0.0, "rag_score": 0.0, "latency": 27.794726099993568, "executed_wolfram": false, "success": true, "heuristic_agreement": true, "confidence_delta": 0.0}
+{"session_id": "sess_timeout", "delta": 0.0, "wolfram_score": 0.0, "rag_score": 0.0, "latency": 37.395264799997676, "executed_wolfram": false, "success": true, "heuristic_agreement": false, "confidence_delta": 0.0}

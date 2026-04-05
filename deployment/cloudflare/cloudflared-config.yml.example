@@ -1,0 +1,11 @@
+tunnel: quantumtutor-cl-prod
+credentials-file: /etc/cloudflared/quantumtutor-cl-prod.json
+
+ingress:
+  - hostname: quantumtutor.cl
+    service: http://localhost:8080
+  - hostname: admin.quantumtutor.cl
+    service: http://localhost:8080
+  - hostname: api.quantumtutor.cl
+    service: http://localhost:8080
+  - service: http_status:404

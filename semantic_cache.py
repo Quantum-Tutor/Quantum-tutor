@@ -1,28 +1,48 @@
 import json
 import logging
 import numpy as np
+from pathlib import Path
 from sentence_transformers import SentenceTransformer
 from scipy.spatial.distance import cosine
 
+from quantum_tutor_paths import SEMANTIC_CACHE_PATH, resolve_runtime_path, write_json_atomic
+
 class SemanticCache:
     """
-    Caché Semántica Dinámica v2.0
+    Caché Semántica Dinámica v2.1
     Almacena consultas de Wolfram ya resueltas y utiliza embeddings para recuperar resultados
     ante variaciones de fraseo (ej. "probabilidad centro pozo" vs "integral pozo medio").
+    BUG-10 FIX: SentenceTransformer ahora se carga de forma perezosa (lazy loading)
+    para no bloquear el startup de Streamlit.
     """
-    def __init__(self, cache_file='semantic_cache.json', threshold=0.70):
-        self.cache_file = cache_file
+    def __init__(self, cache_file=SEMANTIC_CACHE_PATH, threshold=0.70):
+        if isinstance(cache_file, Path):
+            self.cache_file = cache_file
+        else:
+            self.cache_file = Path(cache_file)
+        if self.cache_file == SEMANTIC_CACHE_PATH:
+            self.cache_file = resolve_runtime_path(SEMANTIC_CACHE_PATH, "semantic_cache.json")
         self.threshold = threshold
         self.entries = []
-        
-        # Usar un modelo muy ligero y rápido para embeddings en memoria
-        logging.info("[CACHE] Cargando modelo de embeddings semánticos (all-MiniLM)...")
-        self.encoder = SentenceTransformer('all-MiniLM-L6-v2')
+        self._encoder = None  # BUG-10 FIX: lazy loading
         self.load_cache()
+
+    @property
+    def encoder(self):
+        """Carga el modelo de embeddings de forma perezosa."""
+        if self._encoder is None:
+            logging.info("[CACHE] Cargando modelo SentenceTransformer (all-MiniLM-L6-v2)...")
+            try:
+                self._encoder = SentenceTransformer('all-MiniLM-L6-v2')
+                logging.info("[CACHE] Modelo cargado.")
+            except Exception as e:
+                logging.error(f"[CACHE] Error cargando SentenceTransformer: {e}")
+                self._encoder = None
+        return self._encoder
 
     def load_cache(self):
         try:
-            with open(self.cache_file, 'r', encoding='utf-8') as f:
+            with self.cache_file.open('r', encoding='utf-8') as f:
                 data = json.load(f)
                 self.entries = data.get("entries", [])
             logging.info(f"[CACHE] Cargadas {len(self.entries)} entradas semánticas.")
@@ -30,12 +50,11 @@ class SemanticCache:
             self.entries = []
             
     def save_cache(self):
-        with open(self.cache_file, 'w', encoding='utf-8') as f:
-            # Los embeddings no son serializables directamente por JSON, los guardamos como listas
-            json.dump({"entries": self.entries}, f, indent=4)
+        # Los embeddings no son serializables directamente por JSON, los guardamos como listas
+        write_json_atomic(self.cache_file, {"entries": self.entries}, indent=4)
 
     def check(self, query: str):
-        if not self.entries:
+        if not self.entries or not self.encoder:
             return None
             
         # Calcular embedding de la consulta entrante
@@ -62,6 +81,9 @@ class SemanticCache:
         return None
 
     def store(self, query: str, result: dict):
+        if not self.encoder:
+            logging.warning("[CACHE] Encoder no disponible, omitiendo almacenamiento.")
+            return
         embedding = self.encoder.encode(query).tolist()
         
         self.entries.append({

@@ -1,5 +1,10 @@
-# Streamlit Dependencies for QuantumTutor v3.0
-streamlit>=1.30.0
+# Runtime dependencies for Quantum Tutor v6.1
+bcrypt>=4.0.0
+streamlit>=1.40.0
+fastapi
+uvicorn
+httpx
+python-multipart
 pandas
 sentence-transformers
 sympy
@@ -11,9 +16,9 @@ torch
 torchvision
 numpy
 python-dotenv
+google-generativeai
 # Pinecone connector for production
 pinecone-client
 # Supabase for persistent learning analytics
 supabase
-# PWA support
-streamlit-pwa
+# PWA support handled manually via static/manifest.json

@@ -1,24 +1,29 @@
 """
 Batch Ingestion Pipeline (OCR CPU Mode)
 Procesa libros escaneados completos utilizando PyMuPDF + EasyOCR.
-Dado el tiempo de procesamiento en CPU (~1-2 minutos por pagina),
+Dado el tiempo de procesamiento en CPU (~1-2 minutos por página),
 este script incluye checkpointing para guardar el progreso y
 permitir pausar/reanudar el proceso.
 """
-import os
 import fitz
 import easyocr
 import json
 import time
 from datetime import datetime
+from pathlib import Path
+
+from quantum_tutor_paths import OCR_BATCH_CHECKPOINT_PATH, ensure_output_dirs
 
 # Archivos y rutas
-PDF_PATH = "books/wuolah-premium-Galindo-Pascual-Quantum-Mechanics-Vol-I.pdf"
-CHECKPOINT_FILE = "ocr_batch_checkpoint.json"
+BASE_DIR = Path(__file__).resolve().parent
+PDF_PATH = BASE_DIR / "books" / "wuolah-premium-Galindo-Pascual-Quantum-Mechanics-Vol-I.pdf"
+CHECKPOINT_FILE = OCR_BATCH_CHECKPOINT_PATH
+OCR_OUTPUT_PATH = BASE_DIR / "galindo_pascual_full_ocr.txt"
 
 def load_checkpoint():
-    if os.path.exists(CHECKPOINT_FILE):
-        with open(CHECKPOINT_FILE, 'r', encoding='utf-8') as f:
+    ensure_output_dirs()
+    if CHECKPOINT_FILE.exists():
+        with CHECKPOINT_FILE.open('r', encoding='utf-8') as f:
             return json.load(f)
     return {
         "last_page_processed": -1,
@@ -27,15 +32,17 @@ def load_checkpoint():
     }
 
 def save_checkpoint(last_page, current_text):
+    ensure_output_dirs()
     data = {
         "last_page_processed": last_page,
         "extracted_text": current_text,
         "last_updated": datetime.now().isoformat()
     }
-    with open(CHECKPOINT_FILE, 'w', encoding='utf-8') as f:
+    with CHECKPOINT_FILE.open('w', encoding='utf-8') as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
 
 def run_batch_ocr():
+    ensure_output_dirs()
     print("="*60)
     print("  BATCH OCR PIPELINE — Galindo & Pascual Vol I")
     print("="*60)
@@ -44,11 +51,11 @@ def run_batch_ocr():
     is_cuda = torch.cuda.is_available()
     print(f"[INFO] CUDA Disponible: {is_cuda}")
     if not is_cuda:
-        print("[WARN] Ejecutando en CPU. Esto tomara aproximadamente 7 horas.")
-        print("[INFO] El progreso se guardara cada 5 paginas.")
+        print("[WARN] Ejecutando en CPU. Esto tomará aproximadamente 7 horas.")
+        print("[INFO] El progreso se guardará cada 5 páginas.")
 
     reader = easyocr.Reader(['en', 'es'], gpu=is_cuda, verbose=False)
-    pdf = fitz.open(PDF_PATH)
+    pdf = fitz.open(str(PDF_PATH))
     total_pages = len(pdf)
     
     checkpoint = load_checkpoint()
@@ -59,47 +66,49 @@ def run_batch_ocr():
         print("[OK] El documento ya fue procesado completamente.")
         return
 
-    print(f"[+] Reanudando desde la pagina {start_page} de {total_pages}...")
+    print(f"[+] Reanudando desde la página {start_page} de {total_pages}...")
+    last_completed_page = start_page - 1
     
     try:
         for i in range(start_page, total_pages):
             start_time = time.perf_counter()
             page = pdf[i]
-            pix = page.get_pixmap(dpi=150) # Resolucion optimizada para OCR
-            img_path = f"tmp_batch_page_{i}.png"
-            pix.save(img_path)
+            pix = page.get_pixmap(dpi=150)  # Resolución optimizada para OCR
+            img_path = BASE_DIR / f"tmp_batch_page_{i}.png"
+            pix.save(str(img_path))
             
-            results = reader.readtext(img_path, detail=0)
+            results = reader.readtext(str(img_path), detail=0)
             page_text = " ".join(results)
-            os.remove(img_path)
+            if img_path.exists():
+                img_path.unlink()
             
             if len(page_text.strip()) > 50:
                 full_text += f"\n\n## Pagina {i}\n\n{page_text}"
                 
             elapsed = time.perf_counter() - start_time
-            print(f"  -> Pagina {i}/{total_pages} completada en {elapsed:.1f}s")
+            last_completed_page = i
+            print(f"  -> Página {i}/{total_pages} completada en {elapsed:.1f}s")
             
-            # Guardar checkpoint cada 5 paginas
+            # Guardar checkpoint cada 5 páginas
             if i % 5 == 0:
                 save_checkpoint(i, full_text)
-                print(f"     [+] Checkpoint guardado (Pagina {i})")
+                print(f"     [+] Checkpoint guardado (Página {i})")
                 
     except KeyboardInterrupt:
         print("\n[!] Proceso interrumpido por el usuario.")
-        save_checkpoint(i - 1, full_text)
-        print(f"[+] Progreso guardado hasta la pagina {i - 1}. Puedes reanudar luego.")
+        save_checkpoint(last_completed_page, full_text)
+        print(f"[+] Progreso guardado hasta la página {last_completed_page}. Puedes reanudar luego.")
         return
         
     save_checkpoint(total_pages - 1, full_text)
     
     # Al finalizar, guardar todo en un TXT final
-    output_txt = "galindo_pascual_full_ocr.txt"
-    with open(output_txt, 'w', encoding='utf-8') as f:
+    with OCR_OUTPUT_PATH.open('w', encoding='utf-8') as f:
         f.write(full_text)
         
     print("\n" + "="*60)
     print(f"  [OK] PROCESAMIENTO COMPLETADO")
-    print(f"  Texto final guardado en: {output_txt}")
+    print(f"  Texto final guardado en: {OCR_OUTPUT_PATH}")
     print("="*60)
     
     # Automáticamente disparar la indexación al RAG

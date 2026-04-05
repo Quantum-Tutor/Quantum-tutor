@@ -1,5 +1,5 @@
 """
-QuantumStressTest v1.0 — Orquestador del Protocolo de Validación Científica
+QuantumStressTest v6.1 — Orquestador del Protocolo de Validación Científica
 =============================================================================
 Script principal que ejecuta las 3 dimensiones de evaluación del QuantumTutor:
   1. Precisión Simbólica (Wolfram) → CSR
@@ -13,6 +13,7 @@ import json
 import sys
 import os
 from datetime import datetime
+from pathlib import Path
 
 # Añadir el directorio actual al path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -20,6 +21,8 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from wolfram_emulator import WolframAlphaEmulator
 from faithfulness_evaluator import FaithfulnessEvaluator
 from socratic_evaluator import SocraticEvaluator
+from quantum_tutor_runtime import APP_NAME, DEFAULT_TEXT_MODEL, RUNTIME_VERSION
+from quantum_tutor_paths import QST_RESULTS_PATH, ensure_output_dirs
 
 
 class QuantumStressTest:
@@ -134,7 +137,7 @@ class QuantumStressTest:
         print("\n")
         print("╔" + "═"*68 + "╗")
         print("║" + " "*15 + "🎯 QUANTUM STRESS TEST — SCORECARD" + " "*18 + "║")
-        print("║" + " "*15 + f"QuantumTutor v1.0 | {self.timestamp[:10]}" + " "*14 + "║")
+        print("║" + " "*11 + f"{APP_NAME} {RUNTIME_VERSION} | {self.timestamp[:10]}" + " "*9 + "║")
         print("╠" + "═"*68 + "╣")
 
         for dim_key, dim_data in overall["dimensions"].items():
@@ -183,10 +186,9 @@ class QuantumStressTest:
             dict con todos los resultados, scores, y estado de despliegue
         """
         print("\n")
-        print("╔" + "═"*68 + "╗")
-        print("║     🔬 THE QUANTUM STRESS TEST — Protocolo de Validación v1.0     ║")
-        print("║     QuantumTutor: Sistema Neuro-Simbólico para Física Cuántica     ║")
-        print("╚" + "═"*68 + "╝")
+        print("+" + "-"*68 + "+")
+        print("|  THE QUANTUM STRESS TEST (V6.1)                                    |")
+        print("+" + "-"*68 + "+\n")
         print(f"\n  ⏱️  Iniciando protocolo a las {self.timestamp}")
         print(f"  📋 Dimensiones a evaluar: 3")
         print(f"  📊 Pesos: Fidelidad={self.weights['faithfulness']:.0%}, "
@@ -222,12 +224,12 @@ class QuantumStressTest:
         full_report = {
             "metadata": {
                 "test_name": "The Quantum Stress Test",
-                "version": "1.0",
+                "version": RUNTIME_VERSION,
                 "agent": self.config.get("system_metadata", {}).get(
-                    "agent_name", "QuantumTutor_Simbionte_v1.0"),
+                    "agent_name", "QuantumTutor_Stateless"),
                 "timestamp": self.timestamp,
                 "config_snapshot": {
-                    "model": self.config.get("llm_config", {}).get("model", "N/A"),
+                    "model": self.config.get("llm_config", {}).get("model", DEFAULT_TEXT_MODEL),
                     "temperature": self.config.get("llm_config", {}).get("temperature", "N/A"),
                 }
             },
@@ -250,7 +252,12 @@ if __name__ == "__main__":
     report = qst.run()
 
     # Guardar reporte completo
-    output_path = "qst_results.json"
+    ensure_output_dirs()
+    output_path = Path(
+        qst.config.get("evaluation_protocol", {})
+        .get("output", {})
+        .get("report_path", str(QST_RESULTS_PATH))
+    )
     with open(output_path, "w", encoding="utf-8") as f:
         json.dump(report, f, indent=2, ensure_ascii=False)
 

@@ -1,0 +1,260 @@
+{
+  "browser": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+  "login_user": "admin@quantumtutor.edu",
+  "target_url": "http://127.0.0.1:8501/",
+  "initial_panel": {
+    "has_user_active": true,
+    "has_admin_label": true,
+    "has_api_key_health": true,
+    "has_learning_analytics": true,
+    "stats": {
+      "wolfram_calls": 0,
+      "rag_anchors": 0
+    }
+  },
+  "concept_query": {
+    "prompt": "Explica por que en el pozo infinito la probabilidad en el centro es cero para n=2, sin saltarte la intuicion fisica.",
+    "submit_method": "button-click",
+    "duration_s": 2.92,
+    "message_count_before": 0,
+    "message_count_after": 2,
+    "assistant_response": "✨\n\nEstoy operando en modo local de contingencia, así que te respondo con el contexto recuperado sobre Pozo Infinito.\n\nRespuesta directa de contingencia: en el pozo infinito unidimensional la autofunción es \n𝜓\n𝑛\n(\n𝑥\n)\n=\n2\n𝐿\nsin\n⁡\n(\n𝑛\n𝜋\n𝑥\n𝐿\n)\nψ\nn\n\t​\n\n(x)=\nL\n2\n\t​\n\n\t​\n\nsin(\nL\nnπx\n\t​\n\n). En el centro del pozo, \n𝑥\n=\n𝐿\n/\n2\nx=L/2, para \n𝑛\n=\n2\nn=2 se obtiene \n𝜓\n2\n(\n𝐿\n/\n2\n)\n=\n2\n𝐿\nsin\n⁡\n(\n𝜋\n)\n=\n0\nψ\n2\n\t​\n\n(L/2)=\nL\n2\n\t​\n\n\t​\n\nsin(π)=0. Como la probabilidad es \n∣\n𝜓\n∣\n2\n∣ψ∣\n2\n, allí también vale cero.\n\nIntuición física: el estado \n𝑛\n=\n2\nn=2 tiene un nodo en el centro. No significa que la partícula no exista, sino que en ese estado estacionario la interferencia de la onda hace imposible detectarla exactamente en ese punto.\n\nBase bibliográfica recuperada:\n\n[Fuente: Galindo-Pascual Pagina 140] [IMAGEN_DISPONIBLE: references/page_155.png]\n\n140 4. Qne-Dimensional Problems that is, &L = rT (r an integer). Consequently, the normalizable wave functions and the energies for this infinite square well are nT Vn-1(s) = J sin lr| <L Vn-1(z) =0 , lr| 2 L (4.31) (uz) n2 n = 1,2,- where n 1,3,- corresponds to even; and n 2,4, . corresponds to odd parity. U(x) Fig. 4.5. Infinite square potential well Observe that these wave functions are zero at the potential's infinite disconti - nuity points z 4L, and ae continuous therein, but their derivatives are not; as foreshadowed in the introduction. These same results could have been obtained by directly solving Schrödinger' s equation inside the square well, inposing the boundary conditions V(+L) 0 in order to construct self-adjoint extension of the energy operator /dz2 . Such boundary conditions reflect the impenetrabil - ity of the infinite walls. Hence, whenever we find ourselves with an inpenetrable potential barrier; we require the wave function to be zero at it. An identical conclusion is arrived at by taking the kinetic energy operator as the Friedrichs extension of the operator 1 initially defined on Co functions in (~L, +L), with support in this open interval. This extension is the natural one associated with the energy operator as quadratic form [SI 71]. The spectrun1 we have obtained is\n\n...[Contexto truncado]...\n\nPara seguir con rigor: ¿quieres que ataquemos primero la intuición física, la derivación formal o el cálculo?\n\n📖 Referencias Bibliográficas\n\nExtracto: Galindo & Pascual p. 140",
+    "response_excerpt": "✨\n\nEstoy operando en modo local de contingencia, así que te respondo con el contexto recuperado sobre Pozo Infinito.\n\nRespuesta directa de contingencia: en el pozo infinito unidimensional la autofunción es \n𝜓\n𝑛\n(\n𝑥\n)\n=\n2\n𝐿\nsin\n⁡\n(\n𝑛\n𝜋\n𝑥\n𝐿\n)\nψ\nn\n\t​\n\n(x)=\nL\n2\n\t​\n\n\t​\n\nsin(\nL\nnπx\n\t​\n\n). En el centro del pozo, \n𝑥\n=\n𝐿\n/\n2\nx=L/2, para \n𝑛\n=\n2\nn=2 se obtiene \n𝜓\n2\n(\n𝐿\n/\n2\n)\n=\n2\n𝐿\nsin\n⁡\n(\n𝜋\n)\n=\n0\nψ\n2\n\t​\n\n(L/2)=\nL\n2\n\t​\n\n\t​\n\nsin(π)=0. Como la probabilidad es \n∣\n𝜓\n∣\n2\n∣ψ∣\n2\n, allí también vale cero.\n\nIntuición física: el estado \n𝑛\n=\n2\nn=2 tiene un nodo en el centro. No significa que la partícula no exista, sino que en ese estado estacionario la interferencia de la onda hace imposible detectarla exactamente en ese punto.\n\nBase bibliográfica recuperada:\n\n[Fuente: Galindo-Pascual Pagina 140] [IMAGEN_DISPONIBLE: references/page_155.png]\n\n140 4. Qne-Dimensional Problems that is, &L = rT (r an integer). Con",
+    "reference_captions": [
+      "Extracto: Galindo & Pascual p. 140"
+    ],
+    "reference_files": [
+      "C:\\Users\\abske\\.gemini\\antigravity\\scratch\\quantum_tutor\\static_web\\references\\page_155.png"
+    ],
+    "stats_after": {
+      "wolfram_calls": 0,
+      "rag_anchors": 1
+    },
+    "body_excerpt": "Quantum Tutor System\n\nEntorno Profesional\n\n📝 Nuevo chat\n\n🔍 Buscar chats\n\n🔬 Modelo Cognitivo\n\nGeneral (Rápido)\nHerramientas\n\n🖼️ Imágenes\n\n⊞ Aplicaciones\n\n🔭 Investigación avanzada\n\n⌨️ Codex\n\nTus chats\n• Mecánica Cuántica PDF\n• Base bibliográfica conmutadores\n• Prueba manual de app\n• Personalización maestra GEM\n• Consulta en LaTeX Cuántica\n• Personalización IA CV\n\n👥 Iniciar un chat de grupo\n\nUSUARIO ACTIVO\nAdministrador del Sistema\n🛡️ Admin\n0\nW-CALLS\n1\nRAG-ANCHORS\n🔑 API Key Health\n\n⚠️ Nodo 0: AIzaSy...41M — RATE_LIMIT\n\n⚠️ Nodo 1: AIzaSy...KCA — RATE_LIMIT\n\n⚠️ Nodo 2: AIzaSy...gII — RATE_LIMIT\n\n⚠️ Nodo 3: AIzaSy...KVQ — RATE_LIMIT\n\n⚠️ Nodo 4: AIzaSy...YW4 — RATE_LIMIT\n\n⚠️ Nodo 5: AIzaSy...Khk — RATE_LIMIT\n\n🧠 Learning Analytics\n\nAnalítica en observación: la última respuesta fue parcial o degradada.\n\nDominado: Oscilador Armónico, Pozo Infinito, Conmutadores, Espacio de Hilbert, Ec. Schrödinger\n\nPUNTOS DE DOLOR\n\n• General\n\n🔄 Nueva Sesión\n\n🚪 Cerrar Sesión\n\nkeyboard_arrow_right\n\n🛡️ Admin Console\n\nDeploy\n\nQuantum Tutor | Runtime actual: v6.1-stateless\n\n⚛️ Quantum Tutor Avanzado\n\nAdvanced Quantum Intelligence System | Galindo & Pascual • Cohen-Tannoudji • J.J. Sakurai | Entorno Profesional\n\nModo local de contingencia activo. Las respuestas pueden llegar sin cálculo simbólico o sin referencias visuales sólidas.\n\n✨ Interfaz de Sesión Cuántica\n\n📊 Dashboard Analítico Cognitivo\n\nface\n\nExplica por que en el pozo infinito la probabilidad en el centro es cero para n=2, sin saltarte la intuicion fisica.\n\n⛔ Cancelar Res.\n\n✨\n\nEstoy operando en modo local de contingencia, así que te respondo con el contexto recuperado sobre Pozo Infinito.\n\nRespuesta directa de contingencia: en el pozo infinito unidimensional la autofunción es \n𝜓\n𝑛\n(\n𝑥\n)\n=\n2\n𝐿\nsin\n⁡\n(\n𝑛\n𝜋\n𝑥\n𝐿\n)\nψ\nn\n\t​\n\n(x)=\nL\n2\n\t​\n\n\t​\n\nsin(\nL\nnπx\n\t​\n\n). En el centro del pozo, \n𝑥\n=\n𝐿\n/\n2\nx=L/2, para \n𝑛\n=\n2\nn=2 se obtiene \n𝜓\n2\n(\n𝐿\n/\n2\n)\n=\n2\n𝐿\nsin\n⁡\n(\n𝜋\n)\n=\n0\nψ\n2\n\t​\n\n(L/2)=\nL\n2\n\t​\n\n\t​\n\nsin(π)=0. Como la probabilidad es \n∣\n𝜓\n∣\n2\n∣ψ∣\n2\n, allí también vale cero.\n\nIntuición física: el estado \n𝑛\n=\n2\nn=2 tiene un nodo en el centro. No significa que la partícula no exista, sino que en ese estado estacionario la interferencia de la onda hace imposible detectarla exactamente en ese punto.\n\nBase bibliográfica recuperada:\n\n[Fuente: Galindo-Pascual Pagina 140] [IMAGEN_DISPONIBLE: references/page_155.png]\n\n140 4. Qne-Dimensional Problems that is, &L = rT (r an integer). Consequently, the normalizable wave functions and the energies for this infi",
+    "congruence": {
+      "found_expected": [
+        "pozo infinito",
+        "probabilidad",
+        "centro",
+        "n=2"
+      ],
+      "missing_expected": [],
+      "found_optional": [
+        "nodo"
+      ],
+      "is_congruent": true
+    }
+  },
+  "math_query": {
+    "prompt": "Calcula la integral de e^-x desde 0 hasta infinito y explica el significado del resultado.",
+    "submit_method": "button-click",
+    "duration_s": 12.37,
+    "message_count_before": 2,
+    "message_count_after": 4,
+    "assistant_response": "✨\n\n[Calculando resultado simbólico en paralelo...]\n\nEstoy operando en modo local de contingencia, así que te respondo con el contexto recuperado sobre General.\n\nResultado simbólico verificado:\n\n∫\n0\n∞\n𝑒\n−\n𝑥\n \n𝑑\n𝑥\n=\n1\n∫\n0\n∞\n\t​\n\ne\n−x\ndx=1\n\nInterpretación: el valor 1 indica que el área total bajo \n𝑒\n−\n𝑥\ne\n−x\n entre 0 e infinito es finita y está completamente normalizada. Es la misma idea que aparece cuando una densidad exponencial ya está bien ajustada.\n\nNo recuperé un fragmento bibliográfico suficientemente fuerte, así que conviene reformular la consulta con el concepto, operador o sistema físico específico.\n\nPara seguir con rigor: ¿quieres que ataquemos primero la intuición física, la derivación formal o el cálculo?\n\nRespuesta parcial detectada: sin soporte bibliográfico fuerte, respuesta reformulativa",
+    "response_excerpt": "✨\n\n[Calculando resultado simbólico en paralelo...]\n\nEstoy operando en modo local de contingencia, así que te respondo con el contexto recuperado sobre General.\n\nResultado simbólico verificado:\n\n∫\n0\n∞\n𝑒\n−\n𝑥\n \n𝑑\n𝑥\n=\n1\n∫\n0\n∞\n\t​\n\ne\n−x\ndx=1\n\nInterpretación: el valor 1 indica que el área total bajo \n𝑒\n−\n𝑥\ne\n−x\n entre 0 e infinito es finita y está completamente normalizada. Es la misma idea que aparece cuando una densidad exponencial ya está bien ajustada.\n\nNo recuperé un fragmento bibliográfico suficientemente fuerte, así que conviene reformular la consulta con el concepto, operador o sistema físico específico.\n\nPara seguir con rigor: ¿quieres que ataquemos primero la intuición física, la derivación formal o el cálculo?\n\nRespuesta parcial detectada: sin soporte bibliográfico fuerte, respuesta reformulativa",
+    "reference_captions": [],
+    "reference_files": [],
+    "stats_after": {
+      "wolfram_calls": 1,
+      "rag_anchors": 1
+    },
+    "body_excerpt": "Quantum Tutor System\n\nEntorno Profesional\n\n📝 Nuevo chat\n\n🔍 Buscar chats\n\n🔬 Modelo Cognitivo\n\nGeneral (Rápido)\nHerramientas\n\n🖼️ Imágenes\n\n⊞ Aplicaciones\n\n🔭 Investigación avanzada\n\n⌨️ Codex\n\nTus chats\n• Mecánica Cuántica PDF\n• Base bibliográfica conmutadores\n• Prueba manual de app\n• Personalización maestra GEM\n• Consulta en LaTeX Cuántica\n• Personalización IA CV\n\n👥 Iniciar un chat de grupo\n\nUSUARIO ACTIVO\nAdministrador del Sistema\n🛡️ Admin\n1\nW-CALLS\n1\nRAG-ANCHORS\n🔑 API Key Health\n\n⚠️ Nodo 0: AIzaSy...41M — RATE_LIMIT\n\n⚠️ Nodo 1: AIzaSy...KCA — RATE_LIMIT\n\n⚠️ Nodo 2: AIzaSy...gII — RATE_LIMIT\n\n⚠️ Nodo 3: AIzaSy...KVQ — RATE_LIMIT\n\n⚠️ Nodo 4: AIzaSy...YW4 — RATE_LIMIT\n\n⚠️ Nodo 5: AIzaSy...Khk — RATE_LIMIT\n\n🧠 Learning Analytics\n\nAnalítica en observación: la última respuesta fue parcial o degradada.\n\nDominado: Oscilador Armónico, Pozo Infinito, Conmutadores, Espacio de Hilbert, Ec. Schrödinger\n\nPUNTOS DE DOLOR\n\n• General\n\n🌀 Convergence\n\nClase I (Indiferenciado)\n\nTopic: Pozo Infinito\n\n🔄 Nueva Sesión\n\n🚪 Cerrar Sesión\n\nkeyboard_arrow_right\n\n🛡️ Admin Console\n\nDeploy\n\nQuantum Tutor | Runtime actual: v6.1-stateless\n\n⚛️ Quantum Tutor Avanzado\n\nAdvanced Quantum Intelligence System | Galindo & Pascual • Cohen-Tannoudji • J.J. Sakurai | Entorno Profesional\n\nModo local de contingencia activo. Las respuestas pueden llegar sin cálculo simbólico o sin referencias visuales sólidas.\n\n✨ Interfaz de Sesión Cuántica\n\n📊 Dashboard Analítico Cognitivo\n\nface\n\nExplica por que en el pozo infinito la probabilidad en el centro es cero para n=2, sin saltarte la intuicion fisica.\n\nsmart_toy\n\nEstoy operando en modo local de contingencia, así que te respondo con el contexto recuperado sobre Pozo Infinito.\n\nRespuesta directa de contingencia: en el pozo infinito unidimensional la autofunción es \n𝜓\n𝑛\n(\n𝑥\n)\n=\n2\n𝐿\nsin\n⁡\n(\n𝑛\n𝜋\n𝑥\n𝐿\n)\nψ\nn\n\t​\n\n(x)=\nL\n2\n\t​\n\n\t​\n\nsin(\nL\nnπx\n\t​\n\n). En el centro del pozo, \n𝑥\n=\n𝐿\n/\n2\nx=L/2, para \n𝑛\n=\n2\nn=2 se obtiene \n𝜓\n2\n(\n𝐿\n/\n2\n)\n=\n2\n𝐿\nsin\n⁡\n(\n𝜋\n)\n=\n0\nψ\n2\n\t​\n\n(L/2)=\nL\n2\n\t​\n\n\t​\n\nsin(π)=0. Como la probabilidad es \n∣\n𝜓\n∣\n2\n∣ψ∣\n2\n, allí también vale cero.\n\nIntuición física: el estado \n𝑛\n=\n2\nn=2 tiene un nodo en el centro. No significa que la partícula no exista, sino que en ese estado estacionario la interferencia de la onda hace imposible detectarla exactamente en ese punto.\n\nBase bibliográfica recuperada:\n\n[Fuente: Galindo-Pascual Pagina 140] [IMAGEN_DISPONIBLE: references/page_155.png]\n\n140 4. Qne-Dimensional Problems that is, &L = rT (r an integer). Consequently, the norm",
+    "congruence": {
+      "found_expected": [
+        "integral",
+        "infinito"
+      ],
+      "missing_expected": [],
+      "found_optional": [
+        "resultado",
+        "1",
+        "area"
+      ],
+      "is_congruent": true
+    }
+  },
+  "visual_query": {
+    "prompt": "Podrias mostrar las imagenes del libro que hablan del pozo infinito?",
+    "submit_method": "button-click",
+    "duration_s": 3.27,
+    "message_count_before": 4,
+    "message_count_after": 6,
+    "assistant_response": "✨\n\nEstoy operando en modo local de contingencia, así que te respondo con el contexto recuperado sobre Pozo Infinito.\n\nBase bibliográfica recuperada:\n\n[Fuente: Galindo-Pascual Pagina 140] [IMAGEN_DISPONIBLE: references/page_155.png]\n\n140 4. Qne-Dimensional Problems that is, &L = rT (r an integer). Consequently, the normalizable wave functions and the energies for this infinite square well are nT Vn-1(s) = J sin lr| <L Vn-1(z) =0 , lr| 2 L (4.31) (uz) n2 n = 1,2,- where n 1,3,- corresponds to even; and n 2,4, . corresponds to odd parity. U(x) Fig. 4.5. Infinite square potential well Observe that these wave functions are zero at the potential's infinite disconti - nuity points z 4L, and ae continuous therein, but their derivatives are not; as foreshadowed in the introduction. These same results could have been obtained by directly solving Schrödinger' s equation inside the square well, inposing the boundary conditions V(+L) 0 in order to construct self-adjoint extension of the energy operator /dz2 . Such boundary conditions reflect the impenetrabil - ity of the infinite walls. Hence, whenever we find ourselves with an inpenetrable potential barrier; we require the wave function to be zero at it. An identical conclusion is arrived at by taking the kinetic energy operator as the Friedrichs extension of the operator 1 initially defined on Co functions in (~L, +L), with support in this open interval. This extension is the natural one associated with the energy operator as quadratic form [SI 71]. The spectrun1 we have obtained is\n\n...[Contexto truncado]...\n\nTambién encontré referencias visuales asociadas a esta consulta.\n\nPara seguir con rigor: ¿quieres que ataquemos primero la intuición física, la derivación formal o el cálculo?\n\n📖 Referencias Bibliográficas\n\nExtracto: Galindo & Pascual p. 140",
+    "response_excerpt": "✨\n\nEstoy operando en modo local de contingencia, así que te respondo con el contexto recuperado sobre Pozo Infinito.\n\nBase bibliográfica recuperada:\n\n[Fuente: Galindo-Pascual Pagina 140] [IMAGEN_DISPONIBLE: references/page_155.png]\n\n140 4. Qne-Dimensional Problems that is, &L = rT (r an integer). Consequently, the normalizable wave functions and the energies for this infinite square well are nT Vn-1(s) = J sin lr| <L Vn-1(z) =0 , lr| 2 L (4.31) (uz) n2 n = 1,2,- where n 1,3,- corresponds to even; and n 2,4, . corresponds to odd parity. U(x) Fig. 4.5. Infinite square potential well Observe that these wave functions are zero at the potential's infinite disconti - nuity points z 4L, and ae continuous therein, but their derivatives are not; as foreshadowed in the introduction. These same results could have been obtained by directly solving Schrödinger' s equation inside the square well, inpo",
+    "reference_captions": [
+      "Extracto: Galindo & Pascual p. 140"
+    ],
+    "reference_files": [
+      "C:\\Users\\abske\\.gemini\\antigravity\\scratch\\quantum_tutor\\static_web\\references\\page_155.png"
+    ],
+    "stats_after": {
+      "wolfram_calls": 1,
+      "rag_anchors": 2
+    },
+    "body_excerpt": "Quantum Tutor System\n\nEntorno Profesional\n\n📝 Nuevo chat\n\n🔍 Buscar chats\n\n🔬 Modelo Cognitivo\n\nGeneral (Rápido)\nHerramientas\n\n🖼️ Imágenes\n\n⊞ Aplicaciones\n\n🔭 Investigación avanzada\n\n⌨️ Codex\n\nTus chats\n• Mecánica Cuántica PDF\n• Base bibliográfica conmutadores\n• Prueba manual de app\n• Personalización maestra GEM\n• Consulta en LaTeX Cuántica\n• Personalización IA CV\n\n👥 Iniciar un chat de grupo\n\nUSUARIO ACTIVO\nAdministrador del Sistema\n🛡️ Admin\n1\nW-CALLS\n2\nRAG-ANCHORS\n🔑 API Key Health\n\n⚠️ Nodo 0: AIzaSy...41M — RATE_LIMIT\n\n⚠️ Nodo 1: AIzaSy...KCA — RATE_LIMIT\n\n⚠️ Nodo 2: AIzaSy...gII — RATE_LIMIT\n\n⚠️ Nodo 3: AIzaSy...KVQ — RATE_LIMIT\n\n⚠️ Nodo 4: AIzaSy...YW4 — RATE_LIMIT\n\n⚠️ Nodo 5: AIzaSy...Khk — RATE_LIMIT\n\n🧠 Learning Analytics\n\nAnalítica en observación: la última respuesta fue parcial o degradada.\n\nDominado: Oscilador Armónico, Pozo Infinito, Conmutadores, Espacio de Hilbert, Ec. Schrödinger\n\nPUNTOS DE DOLOR\n\n• General\n\n🌀 Convergence\n\nClase I (Indiferenciado)\n\nTopic: Pozo Infinito\n\n🔄 Nueva Sesión\n\n🚪 Cerrar Sesión\n\nkeyboard_arrow_right\n\n🛡️ Admin Console\n\nDeploy\n\nQuantum Tutor | Runtime actual: v6.1-stateless\n\n⚛️ Quantum Tutor Avanzado\n\nAdvanced Quantum Intelligence System | Galindo & Pascual • Cohen-Tannoudji • J.J. Sakurai | Entorno Profesional\n\nModo local de contingencia activo. Las respuestas pueden llegar sin cálculo simbólico o sin referencias visuales sólidas.\n\nÚltima respuesta parcial: sin soporte bibliográfico fuerte, respuesta reformulativa\n\n✨ Interfaz de Sesión Cuántica\n\n📊 Dashboard Analítico Cognitivo\n\nface\n\nExplica por que en el pozo infinito la probabilidad en el centro es cero para n=2, sin saltarte la intuicion fisica.\n\nsmart_toy\n\nEstoy operando en modo local de contingencia, así que te respondo con el contexto recuperado sobre Pozo Infinito.\n\nRespuesta directa de contingencia: en el pozo infinito unidimensional la autofunción es \n𝜓\n𝑛\n(\n𝑥\n)\n=\n2\n𝐿\nsin\n⁡\n(\n𝑛\n𝜋\n𝑥\n𝐿\n)\nψ\nn\n\t​\n\n(x)=\nL\n2\n\t​\n\n\t​\n\nsin(\nL\nnπx\n\t​\n\n). En el centro del pozo, \n𝑥\n=\n𝐿\n/\n2\nx=L/2, para \n𝑛\n=\n2\nn=2 se obtiene \n𝜓\n2\n(\n𝐿\n/\n2\n)\n=\n2\n𝐿\nsin\n⁡\n(\n𝜋\n)\n=\n0\nψ\n2\n\t​\n\n(L/2)=\nL\n2\n\t​\n\n\t​\n\nsin(π)=0. Como la probabilidad es \n∣\n𝜓\n∣\n2\n∣ψ∣\n2\n, allí también vale cero.\n\nIntuición física: el estado \n𝑛\n=\n2\nn=2 tiene un nodo en el centro. No significa que la partícula no exista, sino que en ese estado estacionario la interferencia de la onda hace imposible detectarla exactamente en ese punto.\n\nBase bibliográfica recuperada:\n\n[Fuente: Galindo-Pascual Pagina 140] [IMAGEN_DISPONIBLE: references/page_155.png]\n\n14",
+    "congruence": {
+      "found_expected": [
+        "pozo infinito"
+      ],
+      "missing_expected": [],
+      "found_optional": [
+        "referencias",
+        "bibliograficas",
+        "imagen"
+      ],
+      "is_congruent": true
+    }
+  },
+  "analytics_tab": {
+    "loaded": true,
+    "has_heatmap": true,
+    "has_anomalies": true,
+    "has_mastered": true
+  },
+  "scroll_buttons": {
+    "has_top_button": true,
+    "has_bottom_button": true,
+    "scroll_target": "stAppViewContainer appview-container st-emotion-cache-1yiq2ps e1td4qo60",
+    "forced_overflow": true,
+    "scroll_before": 0,
+    "scroll_after_bottom": 1295,
+    "scroll_after_top": 0
+  },
+  "sidebar_buttons": {
+    "Nuevo chat": {
+      "clicked": true,
+      "message_count_before": 6,
+      "message_count_after": 0,
+      "stats_before": {
+        "wolfram_calls": 1,
+        "rag_anchors": 2
+      },
+      "stats_after": {
+        "wolfram_calls": 1,
+        "rag_anchors": 2
+      },
+      "observable_change": true,
+      "messages_cleared": true,
+      "stats_preserved": true
+    },
+    "Buscar chats": {
+      "clicked": true,
+      "message_count_before": 0,
+      "message_count_after": 0,
+      "stats_before": {
+        "wolfram_calls": 1,
+        "rag_anchors": 2
+      },
+      "stats_after": {
+        "wolfram_calls": 1,
+        "rag_anchors": 2
+      },
+      "observable_change": true
+    },
+    "Imagenes": {
+      "clicked": true,
+      "message_count_before": 0,
+      "message_count_after": 0,
+      "stats_before": {
+        "wolfram_calls": 1,
+        "rag_anchors": 2
+      },
+      "stats_after": {
+        "wolfram_calls": 1,
+        "rag_anchors": 2
+      },
+      "observable_change": true
+    },
+    "Aplicaciones": {
+      "clicked": true,
+      "message_count_before": 0,
+      "message_count_after": 0,
+      "stats_before": {
+        "wolfram_calls": 1,
+        "rag_anchors": 2
+      },
+      "stats_after": {
+        "wolfram_calls": 1,
+        "rag_anchors": 2
+      },
+      "observable_change": true
+    },
+    "Investigacion avanzada": {
+      "clicked": true,
+      "message_count_before": 0,
+      "message_count_after": 0,
+      "stats_before": {
+        "wolfram_calls": 1,
+        "rag_anchors": 2
+      },
+      "stats_after": {
+        "wolfram_calls": 1,
+        "rag_anchors": 2
+      },
+      "observable_change": true
+    },
+    "Codex": {
+      "clicked": true,
+      "message_count_before": 0,
+      "message_count_after": 0,
+      "stats_before": {
+        "wolfram_calls": 1,
+        "rag_anchors": 2
+      },
+      "stats_after": {
+        "wolfram_calls": 1,
+        "rag_anchors": 2
+      },
+      "observable_change": true
+    },
+    "Iniciar un chat de grupo": {
+      "clicked": true,
+      "message_count_before": 0,
+      "message_count_after": 0,
+      "stats_before": {
+        "wolfram_calls": 1,
+        "rag_anchors": 2
+      },
+      "stats_after": {
+        "wolfram_calls": 1,
+        "rag_anchors": 2
+      },
+      "observable_change": true
+    }
+  },
+  "new_session": {
+    "clicked": true,
+    "message_count_before": 0,
+    "message_count_after": 0,
+    "stats_before": {
+      "wolfram_calls": 1,
+      "rag_anchors": 2
+    },
+    "stats_after": {
+      "wolfram_calls": 0,
+      "rag_anchors": 0
+    },
+    "observable_change": true,
+    "messages_cleared": true,
+    "stats_reset": true
+  },
+  "logout": {
+    "clicked": true,
+    "message_count_before": 0,
+    "message_count_after": 0,
+    "stats_before": {
+      "wolfram_calls": 0,
+      "rag_anchors": 0
+    },
+    "stats_after": {
+      "wolfram_calls": null,
+      "rag_anchors": null
+    },
+    "observable_change": true,
+    "returned_to_login": true
+  },
+  "status": "ok",
+  "app_url": "http://127.0.0.1:8501",
+  "streamlit_port": 8501
+}

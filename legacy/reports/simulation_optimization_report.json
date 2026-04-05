@@ -1,0 +1,65 @@
+[
+    {
+        "turn": 1,
+        "latency_total": 16.989,
+        "rag_used": true,
+        "wolfram_used": false,
+        "attractor": "Vac\u00edo",
+        "entropy": 1.0,
+        "scaffolding_level": "Guiado"
+    },
+    {
+        "turn": 2,
+        "latency_total": 13.385,
+        "rag_used": true,
+        "wolfram_used": false,
+        "attractor": "Pozo Infinito",
+        "entropy": 0.551567748405919,
+        "scaffolding_level": "Maestria Integral"
+    },
+    {
+        "turn": 3,
+        "latency_total": 14.436,
+        "rag_used": true,
+        "wolfram_used": true,
+        "attractor": "Pozo Infinito",
+        "entropy": 0.3789430151172093,
+        "scaffolding_level": "Maestria Integral"
+    },
+    {
+        "turn": 4,
+        "latency_total": 13.723,
+        "rag_used": false,
+        "wolfram_used": false,
+        "attractor": "Pozo Infinito",
+        "entropy": 0.2934113522544501,
+        "scaffolding_level": "Maestria Integral"
+    },
+    {
+        "turn": 5,
+        "latency_total": 13.518,
+        "rag_used": false,
+        "wolfram_used": false,
+        "attractor": "Pozo Infinito",
+        "entropy": 0.2975139941701348,
+        "scaffolding_level": "Guiado"
+    },
+    {
+        "turn": 6,
+        "latency_total": 14.175,
+        "rag_used": false,
+        "wolfram_used": false,
+        "attractor": "Pozo Infinito",
+        "entropy": 0.30165727757814553,
+        "scaffolding_level": "Guiado"
+    },
+    {
+        "turn": 7,
+        "latency_total": 13.818,
+        "rag_used": false,
+        "wolfram_used": false,
+        "attractor": "Pozo Infinito",
+        "entropy": 0.3058411042364548,
+        "scaffolding_level": "Guiado"
+    }
+]

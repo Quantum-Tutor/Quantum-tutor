@@ -1,99 +1,114 @@
 import logging
 import time
 import os
+import json
+import google.genai as genai
+from google.genai import types
+from dotenv import load_dotenv
+from quantum_tutor_runtime import DEFAULT_VISION_MODEL
+
+load_dotenv()
 
 class MultimodalVisionParser:
     """
-    Parser Multimodal v2.0 (Real OCR + Fallback Mock)
-    Utiliza EasyOCR para extraer texto de imagenes reales de derivaciones manuscritas.
-    Si no hay imagen real o EasyOCR falla, retorna datos de prueba para demo.
+    Parser multimodal del runtime actual
+    Utiliza el modelo de visión configurado para razonamiento visual sobre derivaciones.
+    Detecta pasos matemáticos y errores conceptuales directamente desde la imagen.
     """
-    def __init__(self):
+    def __init__(self, model_name=DEFAULT_VISION_MODEL):
         self.supported_formats = ['.png', '.jpg', '.jpeg']
-        self.reader = None
-        self._load_ocr_engine()
-
-    def _load_ocr_engine(self):
-        try:
-            import easyocr
-            self.reader = easyocr.Reader(['en'], gpu=False, verbose=False)
-            logging.info("[VISION] EasyOCR cargado exitosamente (CPU mode).")
-        except ImportError:
-            logging.warning("[VISION] EasyOCR no disponible. Usando mock data.")
-        except Exception as e:
-            logging.warning(f"[VISION] Error cargando EasyOCR: {e}. Usando mock data.")
+        raw_keys = os.getenv("GEMINI_API_KEYS", os.getenv("GEMINI_API_KEY", ""))
+        self.api_key = next((key.strip() for key in raw_keys.split(",") if key.strip()), "")
+        self.model_name = model_name
+        self.client = None
+        
+        if self.api_key:
+            try:
+                self.client = genai.Client(api_key=self.api_key)
+                logging.info(f"[VISION] Gemini Vision API inicializada ({self.model_name}).")
+            except Exception as e:
+                logging.error(f"[VISION] Error inicializando Gemini Client: {e}")
+        else:
+            logging.warning("[VISION] No se encontraron claves Gemini. El parser funcionará en modo Mock.")
 
     def parse_derivation_image(self, image_path: str) -> list[dict]:
         """
-        Pipeline: Imagen -> OCR -> Matriz Estructurada de Pasos
-        Si la imagen existe, usa EasyOCR real.
-        Si no, retorna datos mock para demo.
+        Pipeline: Imagen -> Gemini Vision -> Estructura de Pasos (JSON).
         """
-        logging.info(f"[VISION] Analizando imagen: {image_path}...")
+        abs_path = os.path.abspath(image_path)
+        logging.info(f"[VISION] Analizando imagen multimodal: {abs_path}...")
 
-        # Si la imagen real existe Y tenemos EasyOCR, usamos OCR real
-        if self.reader and os.path.isfile(image_path):
-            return self._real_ocr(image_path)
+        if self.client and os.path.isfile(abs_path):
+            return self._gemini_vision_analysis(abs_path)
 
-        # Fallback: mock data para demo y PoC
-        return self._mock_ocr(image_path)
+        # SECURITY/INTEGRITY: no fabricar feedback visual cuando el servicio no está disponible.
+        logging.warning(f"[VISION] Degraded: sin cliente API o imagen no encontrada para '{abs_path}'.")
+        return self._degraded_response(abs_path)
 
-    def _real_ocr(self, image_path: str) -> list[dict]:
-        """Extrae texto real de una imagen usando EasyOCR."""
+    def _gemini_vision_analysis(self, image_path: str) -> list[dict]:
+        """Análisis de visión optimizado con detección de MIME y reintentos."""
         start = time.perf_counter()
+        ext = os.path.splitext(image_path)[1].lower()
+        mime_type = "image/png" if ext == ".png" else "image/jpeg"
+
+        prompt = """
+        Analiza la imagen de física cuántica.
+        Si es irrelevante, devuelve []. 
+        Si es una derivación, devuelve una lista JSON con: step, latex, description, confidence, error_flag, error_reason.
+        """
+
         try:
-            results = self.reader.readtext(image_path, detail=1)
-            latency = time.perf_counter() - start
-            logging.info(f"[VISION] OCR real completado en {latency:.2f}s. {len(results)} bloques detectados.")
+            with open(image_path, "rb") as f:
+                image_bytes = f.read()
+            
+            response_text = ""
+            for attempt in range(2):
+                try:
+                    res = self.client.models.generate_content(
+                        model=self.model_name,
+                        contents=[prompt, types.Part.from_bytes(data=image_bytes, mime_type=mime_type)],
+                        config=types.GenerateContentConfig(response_mime_type="application/json", temperature=0.1)
+                    )
+                    response_text = res.text
+                    break
+                except Exception as api_err:
+                    if attempt == 1: raise api_err
+                    time.sleep(1)
 
-            steps = []
-            for i, (bbox, text, confidence) in enumerate(results):
-                # Heuristicas simples para detectar posibles errores
-                error_flag = False
-                text_clean = text.strip()
-
-                # Detectar signos sospechosos (error comun en MQ: signo invertido)
-                if any(s in text_clean for s in ['-i', '- i', '-2i']) and confidence < 0.96:
-                    error_flag = True
-
-                steps.append({
-                    "step": i + 1,
-                    "latex": text_clean,
-                    "confidence": round(confidence, 2),
-                    "bbox": bbox,
-                    "error_flag": error_flag
-                })
-
-            return steps if steps else self._mock_ocr(image_path)
+            steps = json.loads(response_text)
+            logging.info(f"[VISION] Análisis completado en {time.perf_counter()-start:.2f}s.")
+            return steps
 
         except Exception as e:
-            logging.error(f"[VISION] Error en OCR real: {e}. Usando fallback.")
-            return self._mock_ocr(image_path)
+            logging.error(f"[VISION] Error en Gemini Vision: {e}")
+            # INTEGRITY: degradar honestamente en lugar de servir datos fabricados.
+            return self._degraded_response(image_path)
 
-    def _mock_ocr(self, image_path: str) -> list[dict]:
-        """Retorna datos simulados para demo."""
-        time.sleep(0.5)  # Simular latencia reducida
-
-        mock_ocr_extraction = [
-            {"step": 1, "latex": "[x^2, p] = x[x, p] + [x, p]x", "confidence": 0.98},
-            {"step": 2, "latex": "[x, p] = i\\hbar", "confidence": 0.99},
-            {"step": 3, "latex": "x(i\\hbar) + (i\\hbar)x", "confidence": 0.97},
-            {"step": 4, "latex": "-2i\\hbar x", "confidence": 0.95, "error_flag": True}
-        ]
-
-        logging.info(f"[VISION] Mock OCR para '{image_path}'. 4 pasos generados.")
-        return mock_ocr_extraction
+    def _degraded_response(self, image_path: str) -> list[dict]:
+        """Respuesta honesta de degradación: no fabrica datos de análisis."""
+        logging.warning(f"[VISION] Modo degradado activado para '{image_path}'. Devolviendo señal de indisponibilidad.")
+        return [{
+            "step": 0,
+            "latex": "",
+            "description": "Análisis visual no disponible.",
+            "confidence": 0.0,
+            "error_flag": True,
+            "error_reason": (
+                "El servicio de visión Gemini no está disponible en este momento. "
+                "Por favor, describe tu derivación manualmente en el chat para recibir "
+                "asistencia socática sin necesidad de imagen."
+            )
+        }]
 
 
 if __name__ == "__main__":
+    # Prueba rápida de integración
+    logging.basicConfig(level=logging.INFO)
     parser = MultimodalVisionParser()
-
-    # Test con mock (no hay imagen real)
-    print("--- Test Mock OCR ---")
-    result = parser.parse_derivation_image("student_upload_1.jpg")
+    
+    print("\n--- Test Multimodal Vision (Modo Mock/Real) ---")
+    # Intentar con una ruta inexistente para ver el fallback
+    result = parser.parse_derivation_image("no_existe.jpg")
     for step in result:
-        flag = " [ERROR]" if step.get("error_flag") else ""
-        print(f"  Paso {step['step']}: {step['latex']} (Conf: {step['confidence']}){flag}")
-
-    print(f"\n[INFO] EasyOCR disponible: {'Si' if parser.reader else 'No'}")
-    print("[INFO] Para test real, coloca una imagen .jpg/.png en esta carpeta y cambia el path.")
+        err = f" [ERROR: {step.get('error_reason', 'N/A')}]" if step.get("error_flag") else ""
+        print(f"Paso {step['step']}: {step['latex']}{err}")

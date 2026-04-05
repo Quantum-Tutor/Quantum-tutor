@@ -1,8 +1,8 @@
 """
-DocumentIngestionPipeline v2.0 — Pipeline de Ingesta Inteligente
+DocumentIngestionPipeline v6.1 - Pipeline de Ingesta Inteligente
 ================================================================
 Pipeline de ingesta para el RAG de QuantumTutor con:
-  - Chunking semántico aware de ecuaciones LaTeX
+  - Chunking semántico consciente de ecuaciones LaTeX
   - Metadatos enriquecidos por chunk (sección, ecuaciones, longitud)
   - Análisis de fragmentación para detectar ecuaciones cortadas
   - Soporte para múltiples documentos
@@ -12,6 +12,7 @@ import json
 import os
 import re
 from datetime import datetime
+from quantum_tutor_runtime import APP_NAME, RUNTIME_VERSION
 
 
 class DocumentIngestionPipeline:
@@ -44,8 +45,8 @@ class DocumentIngestionPipeline:
     def read_document(self, file_path: str) -> str:
         """
         Lee un documento PDF usando PyMuPDF y EasyOCR.
-        Dado que el PDF origen es un escaneo con DRM, extrae texto OCRizando las paginas.
-        Procesa una muestra (paginas 30 a 40) para demostracion debido a tiempos de CPU.
+        Dado que el PDF de origen es un escaneo con DRM, extrae texto mediante OCR.
+        Procesa una muestra (páginas 30 a 40) como demostración por tiempos de CPU.
         """
         print(f"\n[1] Leyendo documento con OCR: {file_path}")
 
@@ -59,7 +60,7 @@ class DocumentIngestionPipeline:
                 reader = easyocr.Reader(['en', 'es'], gpu=False, verbose=False)
                 pdf = fitz.open(file_path)
                 total_pages = len(pdf)
-                print(f"    PDF cargado: {total_pages} paginas. Procesando muestra (30-40)...")
+                print(f"    PDF cargado: {total_pages} páginas. Procesando muestra (30-40)...")
 
                 full_text = ""
                 # Muestra representativa para no demorar horas en CPU
@@ -68,13 +69,13 @@ class DocumentIngestionPipeline:
                 
                 for i in range(start_page, end_page):
                     page = pdf[i]
-                    # Renderizar pagina a imagen
+                    # Renderizar página a imagen
                     pix = page.get_pixmap(dpi=150)
                     img_path = f"tmp_ocr_page_{i}.png"
                     pix.save(img_path)
                     
                     # OCR
-                    print(f"      OCR -> Pagina {i}...")
+                    print(f"      OCR -> Página {i}...")
                     results = reader.readtext(img_path, detail=0)
                     page_text = " ".join(results)
                     os.remove(img_path)
@@ -83,7 +84,7 @@ class DocumentIngestionPipeline:
                         full_text += f"\n\n## Pagina {i}\n\n{page_text}"
 
                 pdf.close()
-                print(f"    Texto OCR extraido: {len(full_text)} caracteres")
+                print(f"    Texto OCR extraído: {len(full_text)} caracteres")
 
                 self.ingestion_log.append({
                     "file": file_path,
@@ -97,19 +98,19 @@ class DocumentIngestionPipeline:
             except Exception as e:
                 print(f"    [WARN] Error en OCR: {e}. Usando fallback.")
 
-        # Fallback: contenido simulado de mecanica cuantica
+        # Fallback: contenido simulado de mecánica cuántica
         simulated_content = self._get_simulated_content()
 
         self.ingestion_log.append({
             "file": file_path,
             "timestamp": datetime.now().isoformat(),
             "content_length": len(simulated_content),
-            "source": "Simulated"
+            "source": "Simulado"
         })
         return simulated_content
 
     def _get_simulated_content(self) -> str:
-        """Contenido simulado de mecanica cuantica para testing."""
+        """Contenido simulado de mecánica cuántica para pruebas."""
         return r"""
 # Semana 2: Mecanica Ondulatoria
 
@@ -190,7 +191,7 @@ $$E_n = \left(n + \frac{1}{2}\right)\hbar\omega$$
         3. Fusionar chunks demasiado pequeños con el anterior
         4. Enriquecer cada chunk con metadatos
         """
-        print("[2] 🔪 Particionando texto (Chunking Semántico Equation-Aware)...")
+        print("[2] 🔪 Particionando texto (chunking semántico consciente de ecuaciones)...")
 
         # Dividir por headers de nivel 2 (##)
         raw_chunks = re.split(r'\n(?=## )', text.strip())
@@ -337,7 +338,7 @@ $$E_n = \left(n + \frac{1}{2}\right)\hbar\omega$$
             file_paths = ["material_curso/semana_2_mecanica_ondulatoria.pdf"]
 
         print("\n" + "="*70)
-        print("  📥 DOCUMENT INGESTION PIPELINE v2.0")
+        print(f"  DOCUMENT INGESTION PIPELINE - {APP_NAME} {RUNTIME_VERSION}")
         print("="*70)
         print(f"  Documentos a procesar: {len(file_paths)}")
         print(f"  Estrategia de chunking: {self.config.get('chunk_strategy')}")

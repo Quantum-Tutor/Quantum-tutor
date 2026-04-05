@@ -1,0 +1,7 @@
+{
+  "threshold": 0.1,
+  "trained_at": 1774639274.758768,
+  "dataset_size": 2,
+  "expected_success": 0.75,
+  "expected_wolfram_usage": 0.0
+}

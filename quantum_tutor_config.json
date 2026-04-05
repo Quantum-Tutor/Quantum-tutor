@@ -1,11 +1,11 @@
 {
   "system_metadata": {
-    "agent_name": "QuantumTutor_Simbionte_v1.0",
-    "architecture": "Neuro-Symbolic RAG Agent",
-    "version": "2026.03.16"
+    "agent_name": "QuantumTutor_Stateless",
+    "architecture": "Stateless Neuro-Symbolic RAG Tutor",
+    "version": "v6.1-stateless"
   },
   "llm_config": {
-    "model": "claude-3-5-sonnet-20241022",
+    "model": "gemini-2.0-flash",
     "temperature": 0.2,
     "max_tokens": 2048,
     "top_p": 0.9,
@@ -74,8 +74,8 @@
       "overall": 0.80
     },
     "output": {
-      "report_path": "qst_results.json",
-      "dashboard_path": "evaluation_dashboard.html"
+      "report_path": "outputs/qst_results.json",
+      "dashboard_path": "outputs/evaluation_dashboard.html"
     }
   }
 }
